@@ -1,0 +1,22 @@
+# Environment
+.env
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build output
+target/
+dist/
+node_modules/
+
+# Angular
+.angular/
+
+# Logs
+*.log
