@@ -34,6 +34,11 @@ A comprehensive, enterprise-grade **College Management System** designed to mana
 - [Lab Management Integration Map](#-lab-management-integration-map)
 - [Why Lab Management Is Deeply Integrated](#-why-lab-management-is-deeply-integrated)
 - [Implementation Roadmap](#-implementation-roadmap)
+  - [Phase 1: Foundation & Identity](#-phase-1-foundation--identity-the-greenfield-setup)
+  - [Phase 2: Core Academic & Lab Mapping](#-phase-2-core-academic--lab-mapping)
+  - [Phase 3: Operational Logistics](#-phase-3-operational-logistics)
+  - [Phase 4: Finance & Asset Management](#-phase-4-finance--asset-management)
+  - [Phase 5: Assessment & Reporting](#-phase-5-assessment--reporting)
 - [Tech Stack](#-tech-stack)
 - [Getting Started](#-getting-started)
 - [Contributing](#-contributing)
@@ -608,27 +613,82 @@ Lab Management **cannot function in isolation**. It touches students, faculty, f
 
 ## 🗓️ Implementation Roadmap
 
-| Phase | Modules | Timeline |
-|-------|---------|----------|
-| **Phase 1 — Core** | Admin, Student, Faculty, Academic, Attendance, Fee, Lab Setup & Scheduling | Months 1-3 |
-| **Phase 2 — Academic** | Examination, Lab Experiments & Student Activities, Curriculum, Timetable | Months 3-5 |
-| **Phase 3 — Operations** | Library, Hostel, Transport, Lab Equipment & Inventory, Lab Maintenance | Months 5-7 |
-| **Phase 4 — Advanced** | Lab Safety & Compliance, Computer Lab Features, Communication, Reports | Months 7-9 |
-| **Phase 5 — Digital** | LMS, Virtual Labs, Mobile App, IoT Integration, Research Labs | Months 9-11 |
-| **Phase 6 — Optimization** | Analytics, Accreditation Reports, Feedback, Placement, Custom Reports | Months 11-12 |
+### 🛠️ Phase 1: Foundation & Identity (The "Greenfield" Setup)
+
+> **Focus:** Security, Infrastructure, and Core Data.
+
+| # | Area | Tasks | Key Deliverables |
+|---|------|-------|-----------------|
+| 1.1 | **Identity Infrastructure** | Deploy Keycloak via Docker; Configure LDAP/AD federation; Define roles (ROLE_ADMIN, ROLE_FACULTY, ROLE_STUDENT, ROLE_LAB_INCHARGE, ROLE_TECHNICIAN) | Working SSO login for all user types |
+| 1.2 | **Backend Core Setup** | Initialize Spring Boot 3.x (Java 21) with Virtual Threads; Implement Spring Security + OAuth2 Resource Server for JWT validation from Keycloak; Set up Global Exception Handler & Jakarta Bean Validation | Secured API skeleton with health endpoints |
+| 1.3 | **Frontend Shell** | Initialize Angular 21 (Standalone Components, Signals); Implement Keycloak Auth Guard; Default landing page — Master Dashboard (Material 3) with "Lab Utilization" widget | Authenticated SPA shell with role-based navigation |
+
+---
+
+### 🧪 Phase 2: Core Academic & Lab Mapping
+
+> **Focus:** Defining the "Who, Where, and What."
+
+| # | Module | Tasks | Key Deliverables |
+|---|--------|-------|-----------------|
+| 2.1 | **Administration (Module 1)** | Department management; Program/Course management; Academic Year & Calendar setup | Institutional structure defined |
+| 2.2 | **Lab Setup (Module 7.1)** | Register physical labs & lab types (Computer, Physics, etc.); Assign Lab In-Charges; Lab capacity & equipment baseline | Lab inventory & ownership established |
+| 2.3 | **Academic & Curriculum (Module 4)** | Curriculum/Syllabus management; **Lab-Curriculum Mapping** — map experiments to Course Outcomes (CO/PO for accreditation) | Experiment-to-outcome traceability |
+| 2.4 | **Faculty (Module 3)** | Faculty profile management; "Lab Expertise" tracking; Lab teaching assignments | Faculty–Lab readiness |
+
+---
+
+### 📅 Phase 3: Operational Logistics
+
+> **Focus:** Scheduling and Attendance.
+
+| # | Module | Tasks | Key Deliverables |
+|---|--------|-------|-----------------|
+| 3.1 | **Lab Scheduling (Module 7.2)** | Automated/manual lab timetable generator; Conflict detection with room & faculty availability | Conflict-free lab timetables |
+| 3.2 | **Student Management (Module 2)** | Admission management; Student enrollment with Lab Batch/Group assignment | Students mapped to lab sessions |
+| 3.3 | **Attendance (Module 5)** | Dedicated Lab/Practical attendance (batch-wise, experiment-wise); RFID/Biometric integration hooks; Attendance alerts & exemptions | Real-time lab attendance tracking |
+
+---
+
+### 💰 Phase 4: Finance & Asset Management
+
+> **Focus:** The "High-Density" Accounting UI.
+
+| # | Module | Tasks | Key Deliverables |
+|---|--------|-------|-----------------|
+| 4.1 | **Finance (Module 8)** | Fee Structure Management (BigDecimal for all calculations); Lab fee tracking; Scholarship & payment processing | End-to-end fee lifecycle |
+| 4.2 | **Lab Inventory (Module 7.3 & 7.4)** | Equipment registration; Consumable stock tracking; Maintenance scheduling | Equipment & consumable management |
+| 4.3 | **Infrastructure (Module 16)** | Cross-link lab equipment as institutional assets; Depreciation tracking; Room & resource management | Unified asset register with depreciation |
+
+---
+
+### 📝 Phase 5: Assessment & Reporting
+
+> **Focus:** Exams and Accreditation.
+
+| # | Module | Tasks | Key Deliverables |
+|---|--------|-------|-----------------|
+| 5.1 | **Examination (Module 6)** | Practical exam scheduling; Continuous Evaluation (experiment-wise marks); GPA/CGPA calculation with lab components | Complete assessment pipeline |
+| 5.2 | **Analytics & Reports (Module 13)** | NBA/NAAC accreditation report generation; Lab Utilization KPIs & dashboards; Department-wise & program-wise analytics | Accreditation-ready reports & insights |
 
 ---
 
 ## 🛠️ Tech Stack
 
+> For full technical standards, coding conventions, and architecture guidelines see **[docs/TECHNICAL_STANDARDS.md](docs/TECHNICAL_STANDARDS.md)**.
+
 | Layer | Technology |
 |-------|-----------|
-| **Frontend** | HTML/CSS, JavaScript, React / Angular |
-| **Backend** | Java (Spring Boot) / Python (Django) / Node.js |
-| **Database** | MySQL / PostgreSQL / MongoDB |
-| **Mobile** | Android (Kotlin) / iOS (Swift) / React Native |
-| **Authentication** | JWT, OAuth 2.0, SAML |
-| **Cloud** | AWS / Azure / GCP |
+| **Frontend** | Angular 21 (Standalone Components, Signals) |
+| **UI Design System** | Angular Material 21 / Material 3 (M3) |
+| **State Management** | Angular Signals + RxJS (for async streams) |
+| **Theming** | CSS Variables via `mat.theme()` Sass mixins (Light & Dark mode) |
+| **Backend** | Java 21 + Spring Boot 3.x (Virtual Threads / Project Loom) |
+| **Identity & Auth** | Keycloak (OAuth 2.0 / OpenID Connect), Stateless JWT with Spring Security |
+| **Database** | PostgreSQL (DECIMAL/NUMERIC for monetary values) |
+| **Validation** | Jakarta Bean Validation |
+| **Error Handling** | Global `@ControllerAdvice` exception handler |
+| **Data Integrity** | BigDecimal for all currency calculations |
 | **CI/CD** | GitHub Actions |
 | **Containerization** | Docker, Kubernetes |
 
@@ -639,9 +699,10 @@ Lab Management **cannot function in isolation**. It touches students, faculty, f
 ### Prerequisites
 
 - Git
-- Node.js / Java / Python (based on chosen stack)
-- MySQL / PostgreSQL
-- Docker (optional)
+- Java 21 (JDK)
+- Node.js 20+ & Angular CLI
+- PostgreSQL
+- Docker & Docker Compose (for Keycloak and containerized deployment)
 
 ### Installation
 
@@ -652,17 +713,17 @@ git clone https://github.com/rasterwebapps/CollegeManagementSystem.git
 # Navigate to the project directory
 cd CollegeManagementSystem
 
-# Install dependencies (example for Node.js)
+# Start Keycloak (Identity Provider)
+docker compose up -d keycloak
+
+# Backend — build & run
+cd backend
+./mvnw spring-boot:run
+
+# Frontend — install dependencies & run
+cd ../frontend
 npm install
-
-# Set up environment variables
-cp .env.example .env
-
-# Run database migrations
-npm run migrate
-
-# Start the development server
-npm run dev
+ng serve
 ```
 
 ---
