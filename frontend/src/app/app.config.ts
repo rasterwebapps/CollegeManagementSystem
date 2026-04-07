@@ -8,7 +8,7 @@ import { AuthService } from './core/auth/auth.service';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 
 function initializeKeycloak(authService: AuthService): () => Promise<boolean> {
-  return () => authService.init();
+  return () => authService.init().catch(() => false);
 }
 
 export const appConfig: ApplicationConfig = {

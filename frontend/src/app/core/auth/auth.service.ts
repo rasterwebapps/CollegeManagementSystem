@@ -36,20 +36,32 @@ export class AuthService {
   }
 
   async init(): Promise<boolean> {
-    const authenticated = await this.keycloak.init({
-      onLoad: 'check-sso',
-      silentCheckSsoRedirectUri:
-        window.location.origin + '/assets/silent-check-sso.html',
-      checkLoginIframe: false,
-    });
+    try {
+      const authenticated = await this.keycloak.init({
+        // Force redirect login flow to avoid hidden iframe checks blocked by CSP.
+        onLoad: 'login-required',
+        checkLoginIframe: false,
+      });
 
-    this._authenticated.set(authenticated);
+      this._authenticated.set(authenticated);
 
-    if (authenticated) {
-      await this.loadUserProfile();
+      if (authenticated) {
+        try {
+          await this.loadUserProfile();
+        } catch (error) {
+          // Keep session active even if profile endpoint fails temporarily.
+          console.warn('Failed to load Keycloak profile; continuing with token auth.', error);
+        }
+      }
+
+      return authenticated;
+    } catch (error) {
+      console.warn('Keycloak initialization failed; continuing unauthenticated.', error);
+      this._authenticated.set(false);
+      this._userProfile.set(null);
+      this._roles.set([]);
+      return false;
     }
-
-    return authenticated;
   }
 
   async login(): Promise<void> {

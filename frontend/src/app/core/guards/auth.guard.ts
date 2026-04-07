@@ -9,7 +9,11 @@ export const authGuard: CanActivateFn = async () => {
     return true;
   }
 
-  await authService.login();
+  try {
+    await authService.login();
+  } catch (error) {
+    console.error('Failed to redirect to Keycloak login.', error);
+  }
   return false;
 };
 

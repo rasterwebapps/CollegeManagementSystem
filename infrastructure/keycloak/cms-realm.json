@@ -32,9 +32,9 @@
       "publicClient": true,
       "standardFlowEnabled": true,
       "directAccessGrantsEnabled": true,
-      "rootUrl": "http://localhost:4200",
-      "redirectUris": ["http://localhost:4200/*"],
-      "webOrigins": ["http://localhost:4200"],
+      "rootUrl": "http://localhost:4300",
+      "redirectUris": ["http://localhost:4200/*", "http://localhost:4300/*"],
+      "webOrigins": ["http://localhost:4200", "http://localhost:4300"],
       "protocol": "openid-connect"
     },
     {
