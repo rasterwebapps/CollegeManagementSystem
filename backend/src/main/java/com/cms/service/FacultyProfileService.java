@@ -84,6 +84,16 @@ public class FacultyProfileService {
     public FacultyProfileResponse update(Long id, FacultyProfileRequest request) {
         FacultyProfile profile = facultyProfileRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("FacultyProfile", id));
+        if (!profile.getKeycloakUserId().equals(request.keycloakUserId())
+                && facultyProfileRepository.existsByKeycloakUserId(request.keycloakUserId())) {
+            throw new IllegalArgumentException(
+                    "Faculty profile with keycloakUserId '" + request.keycloakUserId() + "' already exists");
+        }
+        if (!profile.getEmployeeId().equals(request.employeeId())
+                && facultyProfileRepository.existsByEmployeeId(request.employeeId())) {
+            throw new IllegalArgumentException(
+                    "Faculty profile with employeeId '" + request.employeeId() + "' already exists");
+        }
         Department department = departmentRepository.findById(request.departmentId())
                 .orElseThrow(() -> new ResourceNotFoundException("Department", request.departmentId()));
 

@@ -49,6 +49,9 @@ public class LabTypeService {
     public LabTypeResponse update(Long id, LabTypeRequest request) {
         LabType labType = labTypeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("LabType", id));
+        if (!labType.getName().equals(request.name()) && labTypeRepository.existsByName(request.name())) {
+            throw new IllegalArgumentException("Lab type with name '" + request.name() + "' already exists");
+        }
         labType.setName(request.name());
         labType.setDescription(request.description());
         LabType saved = labTypeRepository.save(labType);

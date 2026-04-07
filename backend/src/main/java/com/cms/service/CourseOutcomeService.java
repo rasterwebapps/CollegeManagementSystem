@@ -62,6 +62,11 @@ public class CourseOutcomeService {
                 .orElseThrow(() -> new ResourceNotFoundException("CourseOutcome", id));
         Course course = courseRepository.findById(request.courseId())
                 .orElseThrow(() -> new ResourceNotFoundException("Course", request.courseId()));
+        if (!(outcome.getCourse().getId().equals(request.courseId()) && outcome.getCode().equals(request.code()))
+                && courseOutcomeRepository.existsByCourseIdAndCode(request.courseId(), request.code())) {
+            throw new IllegalArgumentException(
+                    "Course outcome with code '" + request.code() + "' already exists for this course");
+        }
 
         outcome.setCourse(course);
         outcome.setCode(request.code());

@@ -69,6 +69,9 @@ public class ProgramService {
     public ProgramResponse update(Long id, ProgramRequest request) {
         Program program = programRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Program", id));
+        if (!program.getCode().equals(request.code()) && programRepository.existsByCode(request.code())) {
+            throw new IllegalArgumentException("Program with code '" + request.code() + "' already exists");
+        }
         Department department = departmentRepository.findById(request.departmentId())
                 .orElseThrow(() -> new ResourceNotFoundException("Department", request.departmentId()));
 
