@@ -1,0 +1,122 @@
+.dashboard-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dashboard-title {
+  font-size: 1.75rem;
+  font-weight: 500;
+  margin: 0 0 4px;
+}
+
+.welcome-text {
+  color: var(--mat-sys-on-surface-variant);
+  margin: 0 0 24px;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.summary-card {
+  .summary-card-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .summary-icon {
+    font-size: 2.5rem;
+    width: 40px;
+    height: 40px;
+    color: var(--mat-sys-primary);
+  }
+
+  .summary-value {
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  .summary-label {
+    font-size: 0.875rem;
+    color: var(--mat-sys-on-surface-variant);
+    margin-top: 4px;
+  }
+}
+
+.utilization-card {
+  mat-card-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+.lab-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.lab-row {
+  display: grid;
+  grid-template-columns: 1fr auto 200px;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.lab-info {
+  .lab-name {
+    font-weight: 500;
+  }
+
+  .lab-type {
+    font-size: 0.8125rem;
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+.lab-status {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  .status-icon {
+    font-size: 1rem;
+    width: 16px;
+    height: 16px;
+  }
+
+  .status-text {
+    font-size: 0.8125rem;
+    text-transform: capitalize;
+  }
+}
+
+.lab-utilization {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  mat-progress-bar {
+    flex: 1;
+  }
+
+  .utilization-value {
+    font-size: 0.875rem;
+    font-weight: 500;
+    min-width: 36px;
+    text-align: right;
+  }
+}

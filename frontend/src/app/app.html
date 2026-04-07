@@ -1,0 +1,25 @@
+<mat-toolbar color="primary" class="app-toolbar">
+  <mat-icon class="toolbar-logo">school</mat-icon>
+  <span class="toolbar-title">College Management System</span>
+  <span class="toolbar-spacer"></span>
+
+  <app-theme-toggle />
+
+  @if (authService.authenticated()) {
+    @if (authService.userProfile(); as profile) {
+      <span class="user-name">{{ profile.firstName }} {{ profile.lastName }}</span>
+    }
+    <button
+      mat-icon-button
+      matTooltip="Logout"
+      (click)="authService.logout()"
+      aria-label="Logout"
+    >
+      <mat-icon>logout</mat-icon>
+    </button>
+  }
+</mat-toolbar>
+
+<main class="app-content">
+  <router-outlet />
+</main>

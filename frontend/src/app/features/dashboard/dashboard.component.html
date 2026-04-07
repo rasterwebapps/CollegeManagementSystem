@@ -1,0 +1,60 @@
+<div class="dashboard-container">
+  <h1 class="dashboard-title">Master Dashboard</h1>
+
+  @if (authService.userProfile(); as profile) {
+    <p class="welcome-text">
+      Welcome, {{ profile.firstName }} {{ profile.lastName }}
+    </p>
+  }
+
+  <!-- Summary Cards -->
+  <div class="summary-grid">
+    @for (card of summaryCards(); track card.title) {
+      <mat-card class="summary-card">
+        <mat-card-content>
+          <div class="summary-card-content">
+            <mat-icon class="summary-icon">{{ card.icon }}</mat-icon>
+            <div>
+              <div class="summary-value">{{ card.value }}</div>
+              <div class="summary-label">{{ card.title }}</div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    }
+  </div>
+
+  <!-- Lab Utilization Widget -->
+  <mat-card class="utilization-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-icon>science</mat-icon>
+        Lab Utilization
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="lab-list">
+        @for (lab of labUtilizationData(); track lab.labName) {
+          <div class="lab-row">
+            <div class="lab-info">
+              <div class="lab-name">{{ lab.labName }}</div>
+              <div class="lab-type">{{ lab.type }}</div>
+            </div>
+            <div class="lab-status">
+              <mat-icon class="status-icon">{{ getStatusIcon(lab.status) }}</mat-icon>
+              <span class="status-text">{{ lab.status }}</span>
+            </div>
+            <div class="lab-utilization">
+              <mat-progress-bar
+                [mode]="'determinate'"
+                [value]="lab.utilizationPercent"
+                [color]="getStatusColor(lab.status)"
+              />
+              <span class="utilization-value">{{ lab.utilizationPercent }}%</span>
+            </div>
+          </div>
+        }
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
