@@ -718,7 +718,7 @@ docker compose up -d keycloak
 
 # Backend — build & run
 cd backend
-./mvnw spring-boot:run
+./gradlew bootRun
 
 # Frontend — install dependencies & run
 cd ../frontend

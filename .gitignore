@@ -11,9 +11,12 @@
 Thumbs.db
 
 # Build output
-target/
+build/
 dist/
 node_modules/
+
+# Gradle
+.gradle/
 
 # Angular
 .angular/
