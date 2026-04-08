@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.DirectionsBus
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.School
+import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.material.icons.filled.Science
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.cms.android.data.model.CmsRole
@@ -58,13 +59,13 @@ fun getBottomNavItems(role: CmsRole): List<BottomNavItem> = when (role) {
     CmsRole.FACULTY -> listOf(
         BottomNavItem(Routes.TEACHER_HOME, "Home", Icons.Default.Dashboard),
         BottomNavItem(Routes.TEACHER_COURSES, "Courses", Icons.Default.School),
-        BottomNavItem(Routes.TEACHER_ATTENDANCE, "Attendance", Icons.Default.Person),
+        BottomNavItem(Routes.TEACHER_ATTENDANCE, "Attendance", Icons.Default.School),
         BottomNavItem(Routes.PROFILE, "Profile", Icons.Default.Person),
     )
     CmsRole.STUDENT -> listOf(
         BottomNavItem(Routes.STUDENT_HOME, "Home", Icons.Default.Dashboard),
         BottomNavItem(Routes.STUDENT_GRADES, "Grades", Icons.Default.School),
-        BottomNavItem(Routes.STUDENT_SCHEDULE, "Schedule", Icons.Default.Person),
+        BottomNavItem(Routes.STUDENT_SCHEDULE, "Schedule", Icons.Default.Schedule),
         BottomNavItem(Routes.PROFILE, "Profile", Icons.Default.Person),
     )
     CmsRole.PARENT -> listOf(

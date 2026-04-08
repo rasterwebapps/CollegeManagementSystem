@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.activity.result.ActivityResult
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cms.android.data.model.CmsRole
 import com.cms.android.data.model.UserProfile
 import com.cms.android.data.repository.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
