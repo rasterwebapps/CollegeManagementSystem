@@ -15,10 +15,14 @@ jobs:
     outputs:
       version: ${{ steps.version.outputs.version }}
     steps:
-      - name: Extract version from branch name
+      - name: Extract and validate version from branch name
         id: version
         run: |
           BRANCH="${GITHUB_REF#refs/heads/release/}"
+          if [ -z "$BRANCH" ]; then
+            echo "::error::Could not extract version from branch '${GITHUB_REF}'. Branch must follow 'release/<version>' pattern."
+            exit 1
+          fi
           echo "version=${BRANCH}" >> "$GITHUB_OUTPUT"
           echo "Release version: ${BRANCH}"
 
@@ -119,9 +123,17 @@ jobs:
       - name: Rename backend JAR
         run: |
           cd artifacts/backend
-          for jar in *.jar; do
-            mv "$jar" "../cms-backend-${{ needs.prepare.outputs.version }}.jar"
-          done
+          JAR_COUNT=$(ls -1 *.jar 2>/dev/null | wc -l)
+          if [ "$JAR_COUNT" -eq 0 ]; then
+            echo "::error::No JAR files found in backend artifacts."
+            exit 1
+          fi
+          if [ "$JAR_COUNT" -gt 1 ]; then
+            echo "::error::Multiple JAR files found. Expected exactly one boot JAR."
+            ls -la *.jar
+            exit 1
+          fi
+          mv *.jar "../cms-backend-${{ needs.prepare.outputs.version }}.jar"
 
       - name: Generate release notes
         id: release_notes
