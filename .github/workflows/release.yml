@@ -1,0 +1,155 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - 'release/**'
+
+permissions:
+  contents: write
+
+jobs:
+  prepare:
+    name: Prepare Release
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - name: Extract version from branch name
+        id: version
+        run: |
+          BRANCH="${GITHUB_REF#refs/heads/release/}"
+          echo "version=${BRANCH}" >> "$GITHUB_OUTPUT"
+          echo "Release version: ${BRANCH}"
+
+  build-backend:
+    name: Build Backend
+    needs: prepare
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('backend/**/*.gradle*', 'backend/**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Build and test backend
+        working-directory: backend
+        run: ./gradlew check
+
+      - name: Package backend JAR
+        working-directory: backend
+        run: ./gradlew bootJar
+
+      - name: Upload backend artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-jar
+          path: backend/build/libs/*.jar
+          retention-days: 1
+
+  build-frontend:
+    name: Build Frontend
+    needs: prepare
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Build frontend
+        working-directory: frontend
+        run: npx ng build --configuration=production
+
+      - name: Upload frontend artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist
+          path: frontend/dist/
+          retention-days: 1
+
+  release:
+    name: Create Release
+    needs: [prepare, build-backend, build-frontend]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download backend artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: backend-jar
+          path: artifacts/backend
+
+      - name: Download frontend artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: frontend-dist
+          path: artifacts/frontend
+
+      - name: Package frontend distribution
+        run: |
+          cd artifacts/frontend
+          tar -czf ../cms-frontend-${{ needs.prepare.outputs.version }}.tar.gz .
+
+      - name: Rename backend JAR
+        run: |
+          cd artifacts/backend
+          for jar in *.jar; do
+            mv "$jar" "../cms-backend-${{ needs.prepare.outputs.version }}.jar"
+          done
+
+      - name: Generate release notes
+        id: release_notes
+        run: |
+          VERSION="${{ needs.prepare.outputs.version }}"
+          {
+            echo 'notes<<EOF'
+            echo "## College Management System v${VERSION}"
+            echo ""
+            echo "### Assets"
+            echo "- **cms-backend-${VERSION}.jar** — Spring Boot backend application"
+            echo "- **cms-frontend-${VERSION}.tar.gz** — Angular frontend distribution"
+            echo ""
+            echo "### Deployment"
+            echo "1. Deploy the backend JAR with Java 21"
+            echo "2. Serve the frontend distribution via a web server (e.g., Nginx)"
+            echo "3. Configure Keycloak and PostgreSQL as described in the project documentation"
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ needs.prepare.outputs.version }}
+          name: v${{ needs.prepare.outputs.version }}
+          body: ${{ steps.release_notes.outputs.notes }}
+          target_commitish: ${{ github.sha }}
+          make_latest: true
+          files: |
+            artifacts/cms-backend-${{ needs.prepare.outputs.version }}.jar
+            artifacts/cms-frontend-${{ needs.prepare.outputs.version }}.tar.gz
