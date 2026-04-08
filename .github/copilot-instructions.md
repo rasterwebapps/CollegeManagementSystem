@@ -22,14 +22,18 @@ The College Management System is a full-stack web application for managing colle
 - **Framework**: Spring Boot 3.4.5
 - **Language**: Java 21 with virtual threads enabled
 - **Build Tool**: Gradle (Kotlin DSL)
-- **Database**: PostgreSQL 16 with Flyway migrations
+- **Database**: H2 (in-memory) for local development, PostgreSQL 16 for production/other environments
+- **Database Migrations**: Flyway (enabled for PostgreSQL profiles, disabled for local/H2)
 - **ORM**: Spring Data JPA with Hibernate
 - **Security**: Spring Security with OAuth2 Resource Server (JWT)
 - **Authentication Provider**: Keycloak 26.0
+- **Code Coverage**: JaCoCo with 95% minimum coverage enforcement
+- **Testing**: JUnit 5 + Spring Boot Test (backend only — no frontend unit tests required)
 
 ### Infrastructure
 - **Authentication**: Keycloak 26.0 (realm: `cms`)
-- **Database**: PostgreSQL 16
+- **Database (Production)**: PostgreSQL 16
+- **Database (Local Development)**: H2 in-memory
 - **Container Orchestration**: Docker Compose
 
 ## Project Structure
@@ -47,8 +51,9 @@ CollegeManagementSystem/
 │   │   ├── dto/               # Data Transfer Objects (Java records)
 │   │   └── exception/         # Custom exceptions
 │   └── src/main/resources/
-│       ├── application.yml    # Application configuration
-│       └── db/migration/      # Flyway SQL migrations
+│       ├── application.yml          # Common configuration (default profile: local)
+│       ├── application-local.yml    # H2 in-memory database for local development
+│       └── db/migration/            # Flyway SQL migrations (PostgreSQL)
 ├── frontend/                   # Angular frontend
 │   └── src/app/
 │       ├── core/              # Core services, guards, interceptors
@@ -192,8 +197,17 @@ cd backend
 # Run tests
 ./gradlew test
 
-# Run application
+# Run tests with coverage report (HTML report at build/reports/jacoco/test/html/)
+./gradlew test jacocoTestReport
+
+# Run full check (tests + 95% coverage verification)
+./gradlew check
+
+# Run application (defaults to 'local' profile with H2)
 ./gradlew bootRun
+
+# Run application with PostgreSQL (production profile)
+SPRING_PROFILES_ACTIVE=prod ./gradlew bootRun
 ```
 
 ### Frontend
@@ -207,20 +221,102 @@ npm install
 npm run build
 # or: npx ng build
 
-# Run tests
-npm run test
-
 # Development server
 npm run start
 ```
 
+> **Note:** Frontend unit tests are not required for this project. No `npm run test` is expected.
+
 ### Docker Compose (Local Development)
 ```bash
-# Start all services (PostgreSQL, Keycloak)
+# Start all services (PostgreSQL, Keycloak) — needed only for non-local profiles
 docker compose up -d
 
 # Stop services
 docker compose down
+```
+
+## Database Profiles
+
+The backend supports multiple Spring profiles for database configuration:
+
+| Profile | Database | Flyway | Use Case |
+|---------|----------|--------|----------|
+| `local` (default) | H2 in-memory | Disabled | Local development — no external dependencies needed |
+| `prod` / others | PostgreSQL 16 | Enabled | Production, staging, CI — requires Docker Compose or external PostgreSQL |
+
+- **Local development**: Run `./gradlew bootRun` — uses H2 in-memory database with `ddl-auto: create-drop`. The H2 console is available at `http://localhost:8080/h2-console`.
+- **Production/other environments**: Set `SPRING_PROFILES_ACTIVE=prod` (or omit the `local` profile) — uses PostgreSQL with Flyway migrations.
+
+## Testing & Code Coverage
+
+### Backend Testing Requirements
+- **Minimum code coverage: 95%** — enforced by JaCoCo via `./gradlew check`
+- All new services, controllers, and repositories **must** have corresponding unit tests
+- Use `@SpringBootTest` with `@ActiveProfiles("test")` for integration tests
+- Use `@WebMvcTest` for controller-layer unit tests
+- Use `@DataJpaTest` for repository-layer tests
+- Coverage reports are generated at `backend/build/reports/jacoco/test/html/`
+
+### Frontend Testing
+- **No frontend unit tests are required** for this project
+- Frontend testing tooling (Vitest) is available but not enforced
+
+## Manual Test Cases
+
+**Every completed task in this project must include manual test cases.** When a task is finished, the developer must create or update manual test case documentation to verify the feature works as expected.
+
+### Manual Test Case Guidelines
+
+1. **When to create**: After completing any backend or frontend task from the milestone tracker
+2. **Where to document**: Create a markdown file in `docs/manual-test-cases/` named after the module or feature (e.g., `docs/manual-test-cases/department-management.md`)
+3. **Format**: Each test case must include:
+   - **Test Case ID**: Unique identifier (e.g., `TC-DEPT-001`)
+   - **Title**: Short description of what is being tested
+   - **Preconditions**: Setup required before testing
+   - **Steps**: Numbered step-by-step instructions
+   - **Expected Result**: What the correct behavior should be
+   - **Actual Result**: To be filled during testing (leave blank in documentation)
+   - **Status**: PASS / FAIL / NOT TESTED
+
+### Manual Test Case Template
+
+```markdown
+## TC-{MODULE}-{NUMBER}: {Title}
+
+**Preconditions:**
+- {List any required setup}
+
+**Steps:**
+1. {Step 1}
+2. {Step 2}
+3. {Step 3}
+
+**Expected Result:**
+- {What should happen}
+
+**Status:** NOT TESTED
+```
+
+### Example
+
+```markdown
+## TC-DEPT-001: Create a new department
+
+**Preconditions:**
+- User is logged in with ROLE_ADMIN
+- Application is running
+
+**Steps:**
+1. Send a POST request to `/api/v1/departments` with body: `{"name": "Computer Science", "code": "CS"}`
+2. Verify the response status is 201 Created
+3. Send a GET request to `/api/v1/departments`
+4. Verify the new department appears in the list
+
+**Expected Result:**
+- Department is created successfully and returned in the list
+
+**Status:** NOT TESTED
 ```
 
 ## API Conventions
@@ -235,9 +331,12 @@ docker compose down
 
 1. **Prefer composition over inheritance**
 2. **Use constructor injection for dependencies (backend)** and `inject()` function (frontend)
-3. **Write unit tests for services and controllers**
-4. **Keep controllers thin** - business logic belongs in services
-5. **Use meaningful variable and method names**
-6. **Document public APIs with Javadoc (backend)** and JSDoc (frontend)
-7. **Handle errors gracefully** with appropriate error responses
-8. **Follow existing patterns** in the codebase when adding new features
+3. **Write unit tests for all backend services and controllers** — maintain 95% code coverage
+4. **No frontend unit tests** — frontend testing is not required
+5. **Create manual test cases** for every completed task (see [Manual Test Cases](#manual-test-cases))
+6. **Keep controllers thin** - business logic belongs in services
+7. **Use meaningful variable and method names**
+8. **Document public APIs with Javadoc (backend)** and JSDoc (frontend)
+9. **Handle errors gracefully** with appropriate error responses
+10. **Follow existing patterns** in the codebase when adding new features
+11. **Use the `local` profile** for development (H2) and `prod` for production (PostgreSQL)

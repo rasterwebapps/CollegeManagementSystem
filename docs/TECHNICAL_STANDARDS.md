@@ -10,6 +10,9 @@
 - [2. Angular UI/UX & Design Standards (Material 3)](#2-angular-uiux--design-standards-material-3)
 - [3. Backend (Java 21 & Spring Boot 3.x)](#3-backend-java-21--spring-boot-3x)
 - [4. General Coding & Security Guidelines](#4-general-coding--security-guidelines)
+- [5. Database Profiles](#5-database-profiles)
+- [6. Testing & Code Coverage](#6-testing--code-coverage)
+- [7. Manual Test Cases](#7-manual-test-cases)
 
 ---
 
@@ -81,10 +84,10 @@ src/
 
 ### 1.6 Testing
 
-- Use **`provideHttpClientTesting`** (not the legacy `HttpClientTestingModule`) in test configurations.
-- Favor **Component Harnesses** (`HarnessLoader`) for testing Angular Material components.
-- Structure tests alongside their source files: `component-name.component.spec.ts`.
-- Ensure all feature components have unit tests; aim for integration tests on critical user flows.
+- **No frontend unit tests are required** for this project.
+- Frontend testing tooling (Vitest) is available but not enforced.
+- Use **`provideHttpClientTesting`** (not the legacy `HttpClientTestingModule`) if tests are written in the future.
+- Favor **Component Harnesses** (`HarnessLoader`) for testing Angular Material components if tests are added.
 
 ---
 
@@ -383,6 +386,138 @@ public ResponseEntity<FeePaymentResponse> createPayment(
 | Data Integrity        | BigDecimal for all currency calculations       |
 | Validation            | Jakarta Bean Validation                        |
 | Error Handling        | Global `@ControllerAdvice` exception handler   |
+| DB (Local Dev)        | H2 in-memory (profile: `local`)               |
+| DB (Production)       | PostgreSQL 16 with Flyway migrations           |
+| Backend Code Coverage | JaCoCo — 95% minimum enforced                 |
+| Frontend Testing      | Not required                                   |
+| Manual Test Cases     | Required for every completed task              |
+
+---
+
+## 5. Database Profiles
+
+### 5.1 Profile-Based Database Configuration
+
+The backend uses **Spring Profiles** to switch between databases depending on the environment:
+
+| Profile | Database | Flyway | DDL Strategy | Use Case |
+|---------|----------|--------|--------------|----------|
+| `local` (default) | H2 in-memory | Disabled | `create-drop` | Local development — no external dependencies |
+| `prod` / others | PostgreSQL 16 | Enabled | `validate` | Production, staging, CI environments |
+
+### 5.2 Local Development (H2)
+
+- The default Spring profile is `local`, which uses an **H2 in-memory database**.
+- No Docker Compose or PostgreSQL is needed for local development.
+- Flyway migrations are **disabled** — Hibernate auto-generates the schema from entities.
+- The **H2 console** is available at `http://localhost:8080/h2-console` for inspecting data.
+- To run locally: `./gradlew bootRun`
+
+### 5.3 Production / Other Environments (PostgreSQL)
+
+- Set `SPRING_PROFILES_ACTIVE=prod` (or any non-`local` profile) to use PostgreSQL.
+- Flyway migrations are **enabled** — all schema changes must go through versioned SQL migration files.
+- Requires a running PostgreSQL 16 instance (via Docker Compose or external).
+- Hibernate `ddl-auto` is set to `validate` — it only validates the schema, never modifies it.
+
+### 5.4 Test Profile
+
+- Tests use the `test` profile (`application-test.yml`) with an H2 in-memory database.
+- Flyway is disabled in tests; Hibernate uses `create-drop` for schema management.
+
+---
+
+## 6. Testing & Code Coverage
+
+### 6.1 Backend Testing Requirements
+
+- **Minimum code coverage: 95%** — enforced by JaCoCo plugin in `build.gradle.kts`.
+- Running `./gradlew check` will fail the build if coverage drops below 95%.
+- Coverage reports are generated at `backend/build/reports/jacoco/test/html/`.
+
+### 6.2 Backend Test Types
+
+| Test Type | Annotation | Purpose |
+|-----------|------------|---------|
+| Unit Tests | `@ExtendWith(MockitoExtension.class)` | Test services with mocked dependencies |
+| Controller Tests | `@WebMvcTest(Controller.class)` | Test REST endpoints with MockMvc |
+| Repository Tests | `@DataJpaTest` | Test JPA repositories with H2 |
+| Integration Tests | `@SpringBootTest` + `@ActiveProfiles("test")` | Full application context tests |
+
+### 6.3 Frontend Testing
+
+- **No frontend unit tests are required** for this project.
+- Frontend testing tooling (Vitest) is available but not enforced.
+- If tests are needed in the future, use `provideHttpClientTesting` and Component Harnesses.
+
+---
+
+## 7. Manual Test Cases
+
+### 7.1 Requirement
+
+**Every completed task in this project must include manual test cases.** When a task is finished, the developer must create or update manual test case documentation to verify the feature works correctly.
+
+### 7.2 Guidelines
+
+1. **When to create**: After completing any backend or frontend task from the milestone tracker.
+2. **Where to document**: Create a markdown file in `docs/manual-test-cases/` named after the module or feature (e.g., `docs/manual-test-cases/department-management.md`).
+3. **Who creates them**: The developer who completes the task.
+4. **Review**: Manual test cases should be included in the pull request for review.
+
+### 7.3 Test Case Format
+
+Each test case must include:
+
+| Field | Description |
+|-------|-------------|
+| **Test Case ID** | Unique identifier (e.g., `TC-DEPT-001`) |
+| **Title** | Short description of what is being tested |
+| **Preconditions** | Setup required before testing |
+| **Steps** | Numbered step-by-step instructions |
+| **Expected Result** | What the correct behavior should be |
+| **Actual Result** | To be filled during testing (leave blank in documentation) |
+| **Status** | PASS / FAIL / NOT TESTED |
+
+### 7.4 Template
+
+```markdown
+## TC-{MODULE}-{NUMBER}: {Title}
+
+**Preconditions:**
+- {List any required setup}
+
+**Steps:**
+1. {Step 1}
+2. {Step 2}
+3. {Step 3}
+
+**Expected Result:**
+- {What should happen}
+
+**Status:** NOT TESTED
+```
+
+### 7.5 Example
+
+```markdown
+## TC-DEPT-001: Create a new department
+
+**Preconditions:**
+- User is logged in with ROLE_ADMIN
+- Application is running
+
+**Steps:**
+1. Send a POST request to `/api/v1/departments` with body: `{"name": "Computer Science", "code": "CS"}`
+2. Verify the response status is 201 Created
+3. Send a GET request to `/api/v1/departments`
+4. Verify the new department appears in the list
+
+**Expected Result:**
+- Department is created successfully and returned in the list
+
+**Status:** NOT TESTED
+```
 
 ---
 
