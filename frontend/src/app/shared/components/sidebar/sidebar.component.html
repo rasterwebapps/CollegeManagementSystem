@@ -1,0 +1,49 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #sidenav
+    [mode]="collapsed() ? 'over' : 'side'"
+    [opened]="!collapsed()"
+    class="sidenav"
+  >
+    <mat-nav-list>
+      @for (item of navItems(); track item.route) {
+        @if (item.children) {
+          <mat-expansion-panel class="nav-expansion-panel">
+            <mat-expansion-panel-header>
+              <mat-panel-title class="nav-panel-title">
+                <mat-icon>{{ item.icon }}</mat-icon>
+                <span>{{ item.label }}</span>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            @for (child of item.children; track child.route) {
+              <a
+                mat-list-item
+                [routerLink]="child.route"
+                routerLinkActive="active-link"
+                [routerLinkActiveOptions]="{ exact: true }"
+                (click)="closeMobile()"
+              >
+                {{ child.label }}
+              </a>
+            }
+          </mat-expansion-panel>
+        } @else {
+          <a
+            mat-list-item
+            [routerLink]="item.route"
+            routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="closeMobile()"
+          >
+            <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+            <span>{{ item.label }}</span>
+          </a>
+        }
+      }
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="sidenav-content">
+    <ng-content />
+  </mat-sidenav-content>
+</mat-sidenav-container>
