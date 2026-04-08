@@ -1,12 +1,4 @@
 <mat-toolbar color="primary" class="app-toolbar">
-  <button
-    mat-icon-button
-    class="menu-toggle"
-    (click)="toggleSidebar()"
-    aria-label="Toggle navigation menu"
-  >
-    <mat-icon>menu</mat-icon>
-  </button>
   <mat-icon class="toolbar-logo">school</mat-icon>
   <span class="toolbar-title">College Management System</span>
   <span class="toolbar-spacer"></span>
@@ -28,8 +20,6 @@
   }
 </mat-toolbar>
 
-<app-sidebar #sidebar>
-  <main class="app-content">
-    <router-outlet />
-  </main>
-</app-sidebar>
+<main class="app-content">
+  <router-outlet />
+</main>

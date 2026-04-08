@@ -9,16 +9,16 @@
 | Phase | Description | Total Tasks | Completed | Status |
 |-------|-------------|:-----------:|:---------:|--------|
 | Phase 1 | Foundation & Identity | 9 | 9 | ✅ Complete |
-| Phase 2 | Core Academic & Lab Mapping | 16 | 14 | 🟡 In Progress |
+| Phase 2 | Core Academic & Lab Mapping | 16 | 0 | 🔴 Not Started |
 | Phase 3 | Operational Logistics | 10 | 0 | 🔴 Not Started |
 | Phase 4 | Finance & Asset Management | 10 | 0 | 🔴 Not Started |
 | Phase 5 | Assessment & Reporting | 6 | 0 | 🔴 Not Started |
 
-**Overall Progress: 23 / 51 tasks completed (45%)**
+**Overall Progress: 9 / 51 tasks completed (18%)**
 
 ```
 Phase 1 ████████████████████ 100%
-Phase 2 █████████████████░░░  88%
+Phase 2 ░░░░░░░░░░░░░░░░░░░░   0%
 Phase 3 ░░░░░░░░░░░░░░░░░░░░   0%
 Phase 4 ░░░░░░░░░░░░░░░░░░░░   0%
 Phase 5 ░░░░░░░░░░░░░░░░░░░░   0%
@@ -60,45 +60,45 @@ Phase 5 ░░░░░░░░░░░░░░░░░░░░   0%
 ## 🧪 Phase 2: Core Academic & Lab Mapping
 
 > **Focus:** Defining the "Who, Where, and What."
-> **Status:** 🟡 In Progress (14/16)
+> **Status:** 🔴 Not Started (0/16)
 
 ### 2.1 Administration (Module 1)
 
 | # | Task | Status |
 |---|------|:------:|
-| 1 | Department management — Entity, Repository, Service, Controller, Migration | ✅ |
-| 2 | Program management — Entity, Repository, Service, Controller, Migration | ✅ |
-| 3 | Course management — Entity, Repository, Service, Controller, Migration | ✅ |
-| 4 | Academic Year management — Entity, Repository, Service, Controller, Migration | ✅ |
-| 5 | Semester management — Entity, Repository, Service, Controller, Migration | ✅ |
-| 6 | Calendar Event management — Entity, Repository, Service, Controller, Migration | ✅ |
-| 7 | Frontend — Department list component with CRUD dialog | ✅ |
+| 1 | Department management — Entity, Repository, Service, Controller, Migration | ⬜ |
+| 2 | Program management — Entity, Repository, Service, Controller, Migration | ⬜ |
+| 3 | Course management — Entity, Repository, Service, Controller, Migration | ⬜ |
+| 4 | Academic Year management — Entity, Repository, Service, Controller, Migration | ⬜ |
+| 5 | Semester management — Entity, Repository, Service, Controller, Migration | ⬜ |
+| 6 | Calendar Event management — Entity, Repository, Service, Controller, Migration | ⬜ |
+| 7 | Frontend — Department list component with CRUD dialog | ⬜ |
 | 8 | Frontend — Remaining administration list components (Programs, Courses, Academic Years, Semesters, Calendar Events) | ⬜ |
 
 ### 2.2 Lab Setup (Module 7.1)
 
 | # | Task | Status |
 |---|------|:------:|
-| 1 | Lab Type management — Entity, Repository, Service, Controller, Migration | ✅ |
-| 2 | Lab management — Entity, Repository, Service, Controller, Migration | ✅ |
-| 3 | Lab Staff Assignment management — Entity, Repository, Service, Controller, Migration | ✅ |
+| 1 | Lab Type management — Entity, Repository, Service, Controller, Migration | ⬜ |
+| 2 | Lab management — Entity, Repository, Service, Controller, Migration | ⬜ |
+| 3 | Lab Staff Assignment management — Entity, Repository, Service, Controller, Migration | ⬜ |
 
 ### 2.3 Academic & Curriculum (Module 4)
 
 | # | Task | Status |
 |---|------|:------:|
-| 1 | Syllabus management — Entity, Repository, Service, Controller, Migration | ✅ |
-| 2 | Course Outcome management — Entity, Repository, Service, Controller, Migration | ✅ |
-| 3 | Experiment management — Entity, Repository, Service, Controller, Migration | ✅ |
-| 4 | Experiment–Outcome Mapping — Entity, Repository, Service, Controller, Migration | ✅ |
+| 1 | Syllabus management — Entity, Repository, Service, Controller, Migration | ⬜ |
+| 2 | Course Outcome management — Entity, Repository, Service, Controller, Migration | ⬜ |
+| 3 | Experiment management — Entity, Repository, Service, Controller, Migration | ⬜ |
+| 4 | Experiment–Outcome Mapping — Entity, Repository, Service, Controller, Migration | ⬜ |
 
 ### 2.4 Faculty (Module 3)
 
 | # | Task | Status |
 |---|------|:------:|
-| 1 | Faculty Profile management — Entity, Repository, Service, Controller, Migration | ✅ |
-| 2 | Faculty Lab Expertise — Entity, Repository, Service, Controller, Migration | ✅ |
-| 3 | Faculty Lab Assignment — Entity, Repository, Service, Controller, Migration | ✅ |
+| 1 | Faculty Profile management — Entity, Repository, Service, Controller, Migration | ⬜ |
+| 2 | Faculty Lab Expertise — Entity, Repository, Service, Controller, Migration | ⬜ |
+| 3 | Faculty Lab Assignment — Entity, Repository, Service, Controller, Migration | ⬜ |
 | 4 | Frontend — Faculty feature components | ⬜ |
 
 ---

@@ -3,10 +3,6 @@
   top: 0;
   z-index: 1000;
 
-  .menu-toggle {
-    margin-right: 4px;
-  }
-
   .toolbar-logo {
     margin-right: 8px;
   }
@@ -27,5 +23,5 @@
 }
 
 .app-content {
-  padding: 0;
+  min-height: calc(100vh - 64px);
 }
