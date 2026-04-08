@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="cms_primary">#1565C0</color>
+    <color name="cms_on_primary">#FFFFFF</color>
+    <color name="cms_primary_container">#D1E4FF</color>
+    <color name="cms_on_primary_container">#001D36</color>
+    <color name="cms_secondary">#535F70</color>
+    <color name="cms_on_secondary">#FFFFFF</color>
+    <color name="cms_secondary_container">#D7E3F7</color>
+    <color name="cms_on_secondary_container">#101C2B</color>
+    <color name="cms_tertiary">#6B5778</color>
+    <color name="cms_on_tertiary">#FFFFFF</color>
+    <color name="cms_error">#BA1A1A</color>
+    <color name="cms_on_error">#FFFFFF</color>
+    <color name="cms_background">#FDFCFF</color>
+    <color name="cms_on_background">#1A1C1E</color>
+    <color name="cms_surface">#FDFCFF</color>
+    <color name="cms_on_surface">#1A1C1E</color>
+</resources>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CMS</string>
+    <string name="login_title">College Management System</string>
+    <string name="login_subtitle">Sign in to continue</string>
+    <string name="login_button">Sign In with Keycloak</string>
+    <string name="logout_button">Sign Out</string>
+    <string name="dashboard_title">Dashboard</string>
+    <string name="welcome_message">Welcome, %1$s</string>
+    <string name="role_label">Role: %1$s</string>
+
+    <!-- Role Names -->
+    <string name="role_admin">Administrator</string>
+    <string name="role_faculty">Faculty / Teacher</string>
+    <string name="role_student">Student</string>
+    <string name="role_parent">Parent</string>
+    <string name="role_driver">Driver</string>
+    <string name="role_lab_incharge">Lab In-Charge</string>
+    <string name="role_technician">Technician</string>
+
+    <!-- Navigation -->
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_profile">Profile</string>
+    <string name="nav_schedule">Schedule</string>
+    <string name="nav_attendance">Attendance</string>
+    <string name="nav_grades">Grades</string>
+    <string name="nav_courses">Courses</string>
+    <string name="nav_labs">Labs</string>
+    <string name="nav_transport">Transport</string>
+    <string name="nav_children">My Children</string>
+    <string name="nav_routes">My Routes</string>
+
+    <!-- Errors -->
+    <string name="error_auth_failed">Authentication failed. Please try again.</string>
+    <string name="error_network">Network error. Please check your connection.</string>
+    <string name="error_unknown">An unexpected error occurred.</string>
+</resources>

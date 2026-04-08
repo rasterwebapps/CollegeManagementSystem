@@ -1,0 +1,25 @@
+# Android
+*.apk
+*.aab
+*.ap_
+*.dex
+*.class
+
+# Gradle
+.gradle/
+build/
+local.properties
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+.cxx/
+captures/
+
+# Keystore (never commit)
+*.jks
+*.keystore
+
+# OS
+.DS_Store
+Thumbs.db

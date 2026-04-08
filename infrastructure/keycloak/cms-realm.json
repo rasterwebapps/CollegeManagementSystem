@@ -22,6 +22,14 @@
       {
         "name": "ROLE_TECHNICIAN",
         "description": "Technician for lab maintenance"
+      },
+      {
+        "name": "ROLE_PARENT",
+        "description": "Parent or guardian of a student"
+      },
+      {
+        "name": "ROLE_DRIVER",
+        "description": "Transport driver for college buses"
       }
     ]
   },
@@ -41,6 +49,17 @@
       "clientId": "cms-backend",
       "bearerOnly": true,
       "protocol": "openid-connect"
+    },
+    {
+      "clientId": "cms-mobile",
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "redirectUris": ["com.cms.android://oauth2callback"],
+      "protocol": "openid-connect",
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      }
     }
   ],
   "users": [
@@ -107,6 +126,38 @@
         }
       ],
       "realmRoles": ["ROLE_LAB_INCHARGE"]
+    },
+    {
+      "username": "parent1",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Parent",
+      "lastName": "User",
+      "email": "parent1@cms.local",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "parent123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["ROLE_PARENT"]
+    },
+    {
+      "username": "driver1",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Driver",
+      "lastName": "User",
+      "email": "driver1@cms.local",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "driver123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["ROLE_DRIVER"]
     }
   ],
   "components": {
