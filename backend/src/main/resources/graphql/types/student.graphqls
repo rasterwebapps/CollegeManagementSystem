@@ -1,0 +1,211 @@
+# ===== Student Types =====
+
+type StudentProfile {
+    id: ID!
+    keycloakId: String!
+    enrollmentNumber: String!
+    firstName: String!
+    lastName: String!
+    email: String!
+    phone: String
+    dateOfBirth: Date
+    gender: String
+    bloodGroup: String
+    nationality: String
+    category: String
+    religion: String
+    aadhaarNumber: String
+    photoUrl: String
+    emergencyContactName: String
+    emergencyContactPhone: String
+    medicalConditions: String
+    permanentAddress: String
+    correspondenceAddress: String
+    program: Program!
+    department: Department!
+    currentSemester: Int!
+    admissionDate: Date!
+    status: String!
+    guardians: [StudentGuardian!]!
+    previousEducation: [StudentPreviousEducation!]!
+    enrollments: [StudentEnrollment!]!
+    gpaRecords: [GpaRecord!]!
+    documents: [StudentDocument!]!
+    achievements: [StudentAchievement!]!
+    disciplinaryRecords: [DisciplinaryRecord!]!
+    mentor: StudentMentor
+    backlogs: [Backlog!]!
+    scholarships: [Scholarship!]!
+    admissionRecord: Admission
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type StudentProfilePage {
+    content: [StudentProfile!]!
+    totalElements: Int!
+    totalPages: Int!
+    pageNumber: Int!
+    pageSize: Int!
+}
+
+type StudentGuardian {
+    id: ID!
+    student: StudentProfile!
+    name: String!
+    relation: String!
+    phone: String!
+    email: String
+    occupation: String
+    annualIncome: BigDecimal
+    address: String
+    isPrimary: Boolean!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type StudentPreviousEducation {
+    id: ID!
+    student: StudentProfile!
+    level: String!
+    boardOrUniversity: String!
+    institutionName: String!
+    yearOfPassing: Int!
+    percentage: BigDecimal!
+    subjects: String
+    certificateUrl: String
+    createdAt: DateTime!
+}
+
+type StudentEnrollment {
+    id: ID!
+    student: StudentProfile!
+    course: Course!
+    semester: Semester!
+    labBatchGroup: String
+    enrollmentDate: Date!
+    status: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type Admission {
+    id: ID!
+    student: StudentProfile!
+    applicationNumber: String!
+    program: Program!
+    admissionDate: Date!
+    admissionType: String!
+    entranceExamName: String
+    entranceExamRank: Int
+    entranceExamScore: BigDecimal
+    meritRank: Int
+    quotaCategory: String
+    status: String!
+    remarks: String
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type GpaRecord {
+    id: ID!
+    student: StudentProfile!
+    semester: Semester!
+    semesterGpa: BigDecimal!
+    cgpa: BigDecimal!
+    totalCredits: Int!
+    earnedCredits: Int!
+    labComponentGpa: BigDecimal
+    theoryComponentGpa: BigDecimal
+    backlogs: Int
+    calculationDate: Date!
+    status: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type Scholarship {
+    id: ID!
+    student: StudentProfile!
+    name: String!
+    amount: BigDecimal!
+    scholarshipType: String!
+    provider: String
+    awardedDate: Date!
+    expiryDate: Date
+    renewalCriteria: String
+    status: String!
+    remarks: String
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type StudentDocument {
+    id: ID!
+    student: StudentProfile!
+    documentType: String!
+    documentName: String!
+    fileUrl: String!
+    uploadDate: Date!
+    verified: Boolean!
+    verifiedBy: String
+    verifiedDate: Date
+    remarks: String
+    createdAt: DateTime!
+}
+
+type StudentAchievement {
+    id: ID!
+    student: StudentProfile!
+    title: String!
+    category: String!
+    level: String!
+    date: Date!
+    description: String
+    certificateUrl: String
+    awardedBy: String
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type DisciplinaryRecord {
+    id: ID!
+    student: StudentProfile!
+    incidentDate: Date!
+    category: String!
+    description: String!
+    actionTaken: String
+    severity: String!
+    reportedBy: String!
+    status: String!
+    resolution: String
+    resolutionDate: Date
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type StudentMentor {
+    id: ID!
+    student: StudentProfile!
+    faculty: FacultyProfile!
+    semester: Semester!
+    assignedDate: Date!
+    notes: String
+    active: Boolean!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type Backlog {
+    id: ID!
+    student: StudentProfile!
+    course: Course!
+    semester: Semester!
+    attemptNumber: Int!
+    originalMarks: BigDecimal
+    status: String!
+    clearedDate: Date
+    clearedMarks: BigDecimal
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}

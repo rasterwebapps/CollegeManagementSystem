@@ -1,0 +1,289 @@
+# ===== Lab & Infrastructure Types =====
+
+type Lab {
+    id: ID!
+    name: String!
+    code: String!
+    labType: LabType!
+    department: Department!
+    location: String
+    capacity: Int!
+    inchargeFaculty: FacultyProfile
+    status: String!
+    equipment: [Equipment!]!
+    consumables: [ConsumableStock!]!
+    timetables: [LabTimetable!]!
+    safetyRecords: [LabSafetyRecord!]!
+    softwareLicenses: [SoftwareLicense!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type LabType {
+    id: ID!
+    name: String!
+    description: String
+    labs: [Lab!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type Equipment {
+    id: ID!
+    lab: Lab!
+    name: String!
+    modelNumber: String
+    serialNumber: String
+    manufacturer: String
+    purchaseDate: Date
+    purchaseCost: BigDecimal
+    warrantyExpiry: Date
+    lastCalibrationDate: Date
+    nextCalibrationDate: Date
+    status: String!
+    maintenanceSchedules: [MaintenanceSchedule!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type ConsumableStock {
+    id: ID!
+    lab: Lab!
+    itemName: String!
+    quantity: Int!
+    unit: String!
+    minimumThreshold: Int!
+    unitCost: BigDecimal
+    lastRestocked: Date
+    supplier: String
+    status: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type LabTimetable {
+    id: ID!
+    lab: Lab!
+    course: Course!
+    semester: Semester!
+    faculty: FacultyProfile!
+    dayOfWeek: String!
+    startTime: Time!
+    endTime: Time!
+    batchGroup: String
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type LabStaffAssignment {
+    id: ID!
+    lab: Lab!
+    staffKeycloakId: String!
+    staffRole: String!
+    assignedDate: Date!
+    endDate: Date
+    active: Boolean!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type LabSafetyRecord {
+    id: ID!
+    lab: Lab!
+    recordType: String!
+    inspectionDate: Date!
+    nextInspectionDate: Date
+    inspectedBy: String!
+    complianceStatus: String!
+    certificateNumber: String
+    findings: String
+    correctiveActions: String
+    status: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type LabReservation {
+    id: ID!
+    lab: Lab!
+    reservedByKeycloakId: String!
+    reservedByName: String!
+    purpose: String!
+    reservationDate: Date!
+    startTime: Time!
+    endTime: Time!
+    attendeeCount: Int
+    status: String!
+    approvedBy: String
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type SoftwareLicense {
+    id: ID!
+    lab: Lab!
+    softwareName: String!
+    vendor: String!
+    licenseType: String!
+    licenseKey: String
+    totalLicenses: Int!
+    usedLicenses: Int!
+    purchaseDate: Date!
+    expiryDate: Date!
+    annualCost: BigDecimal
+    status: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type MaintenanceSchedule {
+    id: ID!
+    equipment: Equipment!
+    maintenanceType: String!
+    scheduledDate: Date!
+    completedDate: Date
+    performedBy: String
+    cost: BigDecimal
+    notes: String
+    status: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type LabUtilizationKpi {
+    id: ID!
+    lab: Lab!
+    semester: Semester!
+    totalSlots: Int!
+    utilizedSlots: Int!
+    utilizationPercentage: BigDecimal!
+    peakHours: String
+    avgOccupancy: BigDecimal
+    measurementDate: Date!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+# ===== Infrastructure Types =====
+
+type Asset {
+    id: ID!
+    equipment: Equipment
+    assetCode: String!
+    name: String!
+    category: String!
+    purchaseDate: Date!
+    purchaseCost: BigDecimal!
+    currentValue: BigDecimal!
+    usefulLifeYears: Int!
+    depreciationMethod: String!
+    location: String
+    status: String!
+    depreciations: [Depreciation!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type Depreciation {
+    id: ID!
+    asset: Asset!
+    fiscalYear: String!
+    openingValue: BigDecimal!
+    depreciationAmount: BigDecimal!
+    closingValue: BigDecimal!
+    calculatedDate: Date!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type RoomResource {
+    id: ID!
+    roomNumber: String!
+    building: String!
+    floor: Int!
+    roomType: String!
+    capacity: Int!
+    lab: Lab
+    hasProjector: Boolean
+    hasAC: Boolean
+    hasWhiteboard: Boolean
+    status: String!
+    allocations: [RoomAllocation!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type Building {
+    id: ID!
+    name: String!
+    code: String!
+    address: String
+    totalFloors: Int!
+    yearBuilt: Int
+    status: String!
+    rooms: [RoomResource!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type RoomAllocation {
+    id: ID!
+    room: RoomResource!
+    purpose: String!
+    allocatedTo: String!
+    dayOfWeek: String!
+    startTime: Time!
+    endTime: Time!
+    semester: Semester
+    status: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type MaintenanceRequest {
+    id: ID!
+    requesterKeycloakId: String!
+    requesterName: String!
+    location: String!
+    category: String!
+    description: String!
+    priority: String!
+    status: String!
+    assignedTo: String
+    estimatedCost: BigDecimal
+    actualCost: BigDecimal
+    reportedDate: Date!
+    resolvedDate: Date
+    resolution: String
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type CampusFacility {
+    id: ID!
+    name: String!
+    facilityType: String!
+    location: String!
+    capacity: Int
+    operatingHours: String
+    inchargeName: String
+    inchargePhone: String
+    status: String!
+    description: String
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type TheoryTimetable {
+    id: ID!
+    course: Course!
+    faculty: FacultyProfile!
+    room: RoomResource!
+    semester: Semester!
+    dayOfWeek: String!
+    startTime: Time!
+    endTime: Time!
+    section: String
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}

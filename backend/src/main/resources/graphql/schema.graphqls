@@ -1,0 +1,445 @@
+scalar DateTime
+scalar Date
+scalar BigDecimal
+scalar Time
+
+type Query {
+    # ===== Administration =====
+    departments: [Department!]!
+    department(id: ID!): Department
+    programs: [Program!]!
+    program(id: ID!): Program
+    programsByDepartment(departmentId: ID!): [Program!]!
+    courses: [Course!]!
+    course(id: ID!): Course
+    coursesByProgram(programId: ID!): [Course!]!
+    academicYears: [AcademicYear!]!
+    academicYear(id: ID!): AcademicYear
+    activeAcademicYear: AcademicYear
+    semesters: [Semester!]!
+    semester(id: ID!): Semester
+    semestersByAcademicYear(academicYearId: ID!): [Semester!]!
+    calendarEvents: [CalendarEvent!]!
+    calendarEvent(id: ID!): CalendarEvent
+    calendarEventsByAcademicYear(academicYearId: ID!): [CalendarEvent!]!
+
+    # ===== Students =====
+    studentProfiles(filter: StudentFilterInput, page: Int, size: Int): StudentProfilePage!
+    studentProfile(id: ID!): StudentProfile
+    studentProfileByKeycloakId(keycloakId: String!): StudentProfile
+    studentProfileByEnrollmentNumber(enrollmentNumber: String!): StudentProfile
+    studentEnrollments(studentId: ID!): [StudentEnrollment!]!
+    studentEnrollment(id: ID!): StudentEnrollment
+    admissions(filter: AdmissionFilterInput): [Admission!]!
+    admission(id: ID!): Admission
+    gpaRecords(studentId: ID!): [GpaRecord!]!
+    scholarships(studentId: ID!): [Scholarship!]!
+    studentGuardians(studentId: ID!): [StudentGuardian!]!
+    studentDocuments(studentId: ID!): [StudentDocument!]!
+    studentAchievements(studentId: ID!): [StudentAchievement!]!
+    studentPreviousEducation(studentId: ID!): [StudentPreviousEducation!]!
+    disciplinaryRecords(studentId: ID!): [DisciplinaryRecord!]!
+    studentMentor(studentId: ID!): StudentMentor
+    backlogs(studentId: ID!): [Backlog!]!
+
+    # ===== Faculty =====
+    facultyProfiles: [FacultyProfile!]!
+    facultyProfile(id: ID!): FacultyProfile
+    facultyProfileByKeycloakId(keycloakId: String!): FacultyProfile
+    facultyProfilesByDepartment(departmentId: ID!): [FacultyProfile!]!
+    facultyLabExpertise(facultyId: ID!): [FacultyLabExpertise!]!
+    facultyLabAssignments(facultyId: ID!): [FacultyLabAssignment!]!
+    facultyQualifications(facultyId: ID!): [FacultyQualification!]!
+    researchPublications(facultyId: ID!): [ResearchPublication!]!
+    facultyWorkload(facultyId: ID!, semesterId: ID!): FacultyWorkload
+    facultyAppraisals(facultyId: ID!): [FacultyAppraisal!]!
+    leaveApplications(facultyId: ID!): [LeaveApplication!]!
+    leaveTypes: [LeaveType!]!
+    committeeMemberships(facultyId: ID!): [CommitteeMembership!]!
+
+    # ===== Labs =====
+    labs: [Lab!]!
+    lab(id: ID!): Lab
+    labsByDepartment(departmentId: ID!): [Lab!]!
+    labTypes: [LabType!]!
+    labType(id: ID!): LabType
+    equipment(labId: ID!): [Equipment!]!
+    equipmentById(id: ID!): Equipment
+    consumableStocks(labId: ID!): [ConsumableStock!]!
+    labTimetables(labId: ID!, semesterId: ID): [LabTimetable!]!
+    labStaffAssignments(labId: ID!): [LabStaffAssignment!]!
+    labSafetyRecords(labId: ID!): [LabSafetyRecord!]!
+    labReservations(labId: ID!, date: Date): [LabReservation!]!
+    softwareLicenses(labId: ID!): [SoftwareLicense!]!
+    maintenanceSchedules(equipmentId: ID!): [MaintenanceSchedule!]!
+    labUtilizationKpis(labId: ID!): [LabUtilizationKpi!]!
+
+    # ===== Attendance =====
+    labAttendance(labTimetableId: ID!, date: Date): [LabAttendance!]!
+    studentLabAttendance(studentId: ID!, semesterId: ID): [LabAttendance!]!
+    attendanceAlerts(studentId: ID): [AttendanceAlert!]!
+    theoryAttendance(courseId: ID!, semesterId: ID!, date: Date): [TheoryAttendance!]!
+    studentTheoryAttendance(studentId: ID!, semesterId: ID): [TheoryAttendance!]!
+
+    # ===== Finance =====
+    feeStructures(programId: ID, semesterId: ID): [FeeStructure!]!
+    feeStructure(id: ID!): FeeStructure
+    payments(studentId: ID): [Payment!]!
+    payment(id: ID!): Payment
+    labFees(labId: ID, semesterId: ID): [LabFee!]!
+    feeInstallments(studentId: ID!): [FeeInstallment!]!
+    feeConcessions(studentId: ID): [FeeConcession!]!
+    refunds(studentId: ID): [Refund!]!
+    expenses(departmentId: ID, financialYearId: ID): [Expense!]!
+    departmentBudgets(departmentId: ID, financialYearId: ID): [DepartmentBudget!]!
+    financialYears: [FinancialYear!]!
+    salaryStructures: [SalaryStructure!]!
+    payrolls(facultyId: ID, month: Int, year: Int): [Payroll!]!
+
+    # ===== Examination =====
+    practicalExams(courseId: ID, semesterId: ID): [PracticalExam!]!
+    continuousEvaluations(studentId: ID!, courseId: ID, semesterId: ID): [ContinuousEvaluation!]!
+    examSchedules(semesterId: ID!, courseId: ID): [ExamSchedule!]!
+    examSchedule(id: ID!): ExamSchedule
+    examSeatingPlan(examId: ID!): [ExamSeatingPlan!]!
+    studentMarks(studentId: ID!, semesterId: ID): [StudentMark!]!
+    gradeScales: [GradeScale!]!
+    revaluationRequests(studentId: ID): [RevaluationRequest!]!
+    questionBank(courseId: ID!): [QuestionBankEntry!]!
+    questionPapers(examId: ID): [QuestionPaper!]!
+
+    # ===== Curriculum =====
+    syllabi(courseId: ID!): [Syllabus!]!
+    syllabus(id: ID!): Syllabus
+    courseOutcomes(syllabusId: ID!): [CourseOutcome!]!
+    experiments(syllabusId: ID!): [Experiment!]!
+    experimentOutcomeMappings(experimentId: ID!): [ExperimentOutcomeMapping!]!
+    courseFeedback(courseId: ID!, semesterId: ID): [CourseFeedback!]!
+
+    # ===== Infrastructure =====
+    assets: [Asset!]!
+    asset(id: ID!): Asset
+    depreciations(assetId: ID!): [Depreciation!]!
+    roomResources: [RoomResource!]!
+    roomResource(id: ID!): RoomResource
+    buildings: [Building!]!
+    building(id: ID!): Building
+    roomAllocations(roomId: ID, date: Date): [RoomAllocation!]!
+    maintenanceRequests(status: String): [MaintenanceRequest!]!
+    campusFacilities: [CampusFacility!]!
+    theoryTimetables(semesterId: ID!, courseId: ID): [TheoryTimetable!]!
+
+    # ===== Analytics =====
+    analyticsSnapshots(departmentId: ID, snapshotType: String): [AnalyticsSnapshot!]!
+    accreditationReports(departmentId: ID): [AccreditationReport!]!
+
+    # ===== Library =====
+    books(filter: BookFilterInput, page: Int, size: Int): BookPage!
+    book(id: ID!): Book
+    bookByIsbn(isbn: String!): Book
+    bookIssues(memberId: ID, status: String): [BookIssue!]!
+    libraryMembers(memberType: String): [LibraryMember!]!
+    libraryMember(id: ID!): LibraryMember
+    bookReservations(bookId: ID): [BookReservation!]!
+    digitalResources(category: String): [DigitalResource!]!
+    libraryFines(memberId: ID, status: String): [LibraryFine!]!
+
+    # ===== Hostel =====
+    hostels: [Hostel!]!
+    hostel(id: ID!): Hostel
+    hostelRooms(hostelId: ID!, status: String): [HostelRoom!]!
+    hostelAllocations(hostelId: ID, studentId: ID, status: String): [HostelAllocation!]!
+    messMenus(hostelId: ID!, dayOfWeek: String): [MessMenu!]!
+    hostelFees(studentId: ID): [HostelFee!]!
+    visitorLogs(studentId: ID, date: Date): [VisitorLog!]!
+
+    # ===== Placement =====
+    companies(filter: CompanyFilterInput): [Company!]!
+    company(id: ID!): Company
+    placementDrives(academicYearId: ID, companyId: ID): [PlacementDrive!]!
+    placementDrive(id: ID!): PlacementDrive
+    placementApplications(studentId: ID, driveId: ID): [PlacementApplication!]!
+    placementOffers(studentId: ID): [PlacementOffer!]!
+    internships(studentId: ID): [Internship!]!
+    placementStatistics(academicYearId: ID, departmentId: ID): [PlacementStatistics!]!
+
+    # ===== Transport =====
+    vehicles(status: String): [Vehicle!]!
+    vehicle(id: ID!): Vehicle
+    transportRoutes: [TransportRoute!]!
+    transportRoute(id: ID!): TransportRoute
+    transportPasses(studentId: ID, status: String): [TransportPass!]!
+
+    # ===== Communication =====
+    announcements(category: String, targetRole: String): [Announcement!]!
+    announcement(id: ID!): Announcement
+    notifications(recipientKeycloakId: String!, unreadOnly: Boolean): [Notification!]!
+    notificationPreference(userKeycloakId: String!): NotificationPreference
+    messages(userKeycloakId: String!, threadId: ID): [Message!]!
+    messageThreads(userKeycloakId: String!): [MessageThread!]!
+
+    # ===== Grievance =====
+    grievances(status: String, category: String): [Grievance!]!
+    grievance(id: ID!): Grievance
+    grievanceComments(grievanceId: ID!): [GrievanceComment!]!
+    feedbackForms(status: String): [FeedbackForm!]!
+    feedbackForm(id: ID!): FeedbackForm
+    feedbackResponses(formId: ID!): [FeedbackResponse!]!
+}
+
+type Mutation {
+    # ===== Administration =====
+    createDepartment(input: DepartmentInput!): Department!
+    updateDepartment(id: ID!, input: DepartmentInput!): Department!
+    deleteDepartment(id: ID!): Boolean!
+    createProgram(input: ProgramInput!): Program!
+    updateProgram(id: ID!, input: ProgramInput!): Program!
+    deleteProgram(id: ID!): Boolean!
+    createCourse(input: CourseInput!): Course!
+    updateCourse(id: ID!, input: CourseInput!): Course!
+    deleteCourse(id: ID!): Boolean!
+    createAcademicYear(input: AcademicYearInput!): AcademicYear!
+    updateAcademicYear(id: ID!, input: AcademicYearInput!): AcademicYear!
+    deleteAcademicYear(id: ID!): Boolean!
+    createSemester(input: SemesterInput!): Semester!
+    updateSemester(id: ID!, input: SemesterInput!): Semester!
+    deleteSemester(id: ID!): Boolean!
+    createCalendarEvent(input: CalendarEventInput!): CalendarEvent!
+    updateCalendarEvent(id: ID!, input: CalendarEventInput!): CalendarEvent!
+    deleteCalendarEvent(id: ID!): Boolean!
+
+    # ===== Students =====
+    createStudentProfile(input: StudentProfileInput!): StudentProfile!
+    updateStudentProfile(id: ID!, input: StudentProfileInput!): StudentProfile!
+    deleteStudentProfile(id: ID!): Boolean!
+    createStudentEnrollment(input: StudentEnrollmentInput!): StudentEnrollment!
+    updateStudentEnrollment(id: ID!, input: StudentEnrollmentInput!): StudentEnrollment!
+    deleteStudentEnrollment(id: ID!): Boolean!
+    createAdmission(input: AdmissionInput!): Admission!
+    updateAdmission(id: ID!, input: AdmissionInput!): Admission!
+    deleteAdmission(id: ID!): Boolean!
+    createGpaRecord(input: GpaRecordInput!): GpaRecord!
+    updateGpaRecord(id: ID!, input: GpaRecordInput!): GpaRecord!
+    createScholarship(input: ScholarshipInput!): Scholarship!
+    updateScholarship(id: ID!, input: ScholarshipInput!): Scholarship!
+    deleteScholarship(id: ID!): Boolean!
+    createStudentGuardian(input: StudentGuardianInput!): StudentGuardian!
+    updateStudentGuardian(id: ID!, input: StudentGuardianInput!): StudentGuardian!
+    deleteStudentGuardian(id: ID!): Boolean!
+    createStudentDocument(input: StudentDocumentInput!): StudentDocument!
+    deleteStudentDocument(id: ID!): Boolean!
+    createStudentAchievement(input: StudentAchievementInput!): StudentAchievement!
+    updateStudentAchievement(id: ID!, input: StudentAchievementInput!): StudentAchievement!
+    deleteStudentAchievement(id: ID!): Boolean!
+    createStudentPreviousEducation(input: StudentPreviousEducationInput!): StudentPreviousEducation!
+    createDisciplinaryRecord(input: DisciplinaryRecordInput!): DisciplinaryRecord!
+    updateDisciplinaryRecord(id: ID!, input: DisciplinaryRecordInput!): DisciplinaryRecord!
+    assignStudentMentor(input: StudentMentorInput!): StudentMentor!
+    createBacklog(input: BacklogInput!): Backlog!
+    updateBacklog(id: ID!, input: BacklogInput!): Backlog!
+
+    # ===== Faculty =====
+    createFacultyProfile(input: FacultyProfileInput!): FacultyProfile!
+    updateFacultyProfile(id: ID!, input: FacultyProfileInput!): FacultyProfile!
+    deleteFacultyProfile(id: ID!): Boolean!
+    createFacultyLabExpertise(input: FacultyLabExpertiseInput!): FacultyLabExpertise!
+    deleteFacultyLabExpertise(id: ID!): Boolean!
+    createFacultyLabAssignment(input: FacultyLabAssignmentInput!): FacultyLabAssignment!
+    updateFacultyLabAssignment(id: ID!, input: FacultyLabAssignmentInput!): FacultyLabAssignment!
+    deleteFacultyLabAssignment(id: ID!): Boolean!
+    createFacultyQualification(input: FacultyQualificationInput!): FacultyQualification!
+    deleteFacultyQualification(id: ID!): Boolean!
+    createResearchPublication(input: ResearchPublicationInput!): ResearchPublication!
+    updateResearchPublication(id: ID!, input: ResearchPublicationInput!): ResearchPublication!
+    deleteResearchPublication(id: ID!): Boolean!
+    saveFacultyWorkload(input: FacultyWorkloadInput!): FacultyWorkload!
+    createFacultyAppraisal(input: FacultyAppraisalInput!): FacultyAppraisal!
+    createLeaveApplication(input: LeaveApplicationInput!): LeaveApplication!
+    updateLeaveApplicationStatus(id: ID!, status: String!, remarks: String): LeaveApplication!
+    createCommitteeMembership(input: CommitteeMembershipInput!): CommitteeMembership!
+    deleteCommitteeMembership(id: ID!): Boolean!
+
+    # ===== Labs =====
+    createLab(input: LabInput!): Lab!
+    updateLab(id: ID!, input: LabInput!): Lab!
+    deleteLab(id: ID!): Boolean!
+    createLabType(input: LabTypeInput!): LabType!
+    updateLabType(id: ID!, input: LabTypeInput!): LabType!
+    deleteLabType(id: ID!): Boolean!
+    createEquipment(input: EquipmentInput!): Equipment!
+    updateEquipment(id: ID!, input: EquipmentInput!): Equipment!
+    deleteEquipment(id: ID!): Boolean!
+    createConsumableStock(input: ConsumableStockInput!): ConsumableStock!
+    updateConsumableStock(id: ID!, input: ConsumableStockInput!): ConsumableStock!
+    createLabTimetable(input: LabTimetableInput!): LabTimetable!
+    updateLabTimetable(id: ID!, input: LabTimetableInput!): LabTimetable!
+    deleteLabTimetable(id: ID!): Boolean!
+    createLabStaffAssignment(input: LabStaffAssignmentInput!): LabStaffAssignment!
+    deleteLabStaffAssignment(id: ID!): Boolean!
+    createLabSafetyRecord(input: LabSafetyRecordInput!): LabSafetyRecord!
+    createLabReservation(input: LabReservationInput!): LabReservation!
+    updateLabReservationStatus(id: ID!, status: String!): LabReservation!
+    createSoftwareLicense(input: SoftwareLicenseInput!): SoftwareLicense!
+    updateSoftwareLicense(id: ID!, input: SoftwareLicenseInput!): SoftwareLicense!
+    createMaintenanceSchedule(input: MaintenanceScheduleInput!): MaintenanceSchedule!
+    updateMaintenanceSchedule(id: ID!, input: MaintenanceScheduleInput!): MaintenanceSchedule!
+
+    # ===== Attendance =====
+    markLabAttendance(input: LabAttendanceInput!): LabAttendance!
+    markBulkLabAttendance(inputs: [LabAttendanceInput!]!): [LabAttendance!]!
+    createAttendanceAlert(input: AttendanceAlertInput!): AttendanceAlert!
+    resolveAttendanceAlert(id: ID!): AttendanceAlert!
+    markTheoryAttendance(input: TheoryAttendanceInput!): TheoryAttendance!
+    markBulkTheoryAttendance(inputs: [TheoryAttendanceInput!]!): [TheoryAttendance!]!
+
+    # ===== Finance =====
+    createFeeStructure(input: FeeStructureInput!): FeeStructure!
+    updateFeeStructure(id: ID!, input: FeeStructureInput!): FeeStructure!
+    deleteFeeStructure(id: ID!): Boolean!
+    createPayment(input: PaymentInput!): Payment!
+    updatePaymentStatus(id: ID!, status: String!): Payment!
+    createLabFee(input: LabFeeInput!): LabFee!
+    createFeeInstallment(input: FeeInstallmentInput!): FeeInstallment!
+    updateFeeInstallment(id: ID!, input: FeeInstallmentInput!): FeeInstallment!
+    createFeeConcession(input: FeeConcessionInput!): FeeConcession!
+    approveFeeConcession(id: ID!, approvedBy: String!): FeeConcession!
+    createRefund(input: RefundInput!): Refund!
+    processRefund(id: ID!, approvedBy: String!): Refund!
+    createExpense(input: ExpenseInput!): Expense!
+    createDepartmentBudget(input: DepartmentBudgetInput!): DepartmentBudget!
+    updateDepartmentBudget(id: ID!, input: DepartmentBudgetInput!): DepartmentBudget!
+    createFinancialYear(input: FinancialYearInput!): FinancialYear!
+    createSalaryStructure(input: SalaryStructureInput!): SalaryStructure!
+    generatePayroll(input: PayrollInput!): Payroll!
+
+    # ===== Examination =====
+    createPracticalExam(input: PracticalExamInput!): PracticalExam!
+    updatePracticalExam(id: ID!, input: PracticalExamInput!): PracticalExam!
+    createContinuousEvaluation(input: ContinuousEvaluationInput!): ContinuousEvaluation!
+    updateContinuousEvaluation(id: ID!, input: ContinuousEvaluationInput!): ContinuousEvaluation!
+    createExamSchedule(input: ExamScheduleInput!): ExamSchedule!
+    updateExamSchedule(id: ID!, input: ExamScheduleInput!): ExamSchedule!
+    generateSeatingPlan(examId: ID!): [ExamSeatingPlan!]!
+    createStudentMark(input: StudentMarkInput!): StudentMark!
+    updateStudentMark(id: ID!, input: StudentMarkInput!): StudentMark!
+    publishResults(semesterId: ID!, courseId: ID!): Boolean!
+    createGradeScale(input: GradeScaleInput!): GradeScale!
+    createRevaluationRequest(input: RevaluationRequestInput!): RevaluationRequest!
+    processRevaluationRequest(id: ID!, revisedMarks: BigDecimal, status: String!): RevaluationRequest!
+    createQuestionBankEntry(input: QuestionBankEntryInput!): QuestionBankEntry!
+    createQuestionPaper(input: QuestionPaperInput!): QuestionPaper!
+
+    # ===== Curriculum =====
+    createSyllabus(input: SyllabusInput!): Syllabus!
+    updateSyllabus(id: ID!, input: SyllabusInput!): Syllabus!
+    deleteSyllabus(id: ID!): Boolean!
+    createCourseOutcome(input: CourseOutcomeInput!): CourseOutcome!
+    updateCourseOutcome(id: ID!, input: CourseOutcomeInput!): CourseOutcome!
+    deleteCourseOutcome(id: ID!): Boolean!
+    createExperiment(input: ExperimentInput!): Experiment!
+    updateExperiment(id: ID!, input: ExperimentInput!): Experiment!
+    deleteExperiment(id: ID!): Boolean!
+    createExperimentOutcomeMapping(input: ExperimentOutcomeMappingInput!): ExperimentOutcomeMapping!
+    deleteExperimentOutcomeMapping(id: ID!): Boolean!
+    createCourseFeedback(input: CourseFeedbackInput!): CourseFeedback!
+
+    # ===== Infrastructure =====
+    createAsset(input: AssetInput!): Asset!
+    updateAsset(id: ID!, input: AssetInput!): Asset!
+    deleteAsset(id: ID!): Boolean!
+    createRoomResource(input: RoomResourceInput!): RoomResource!
+    updateRoomResource(id: ID!, input: RoomResourceInput!): RoomResource!
+    deleteRoomResource(id: ID!): Boolean!
+    createBuilding(input: BuildingInput!): Building!
+    updateBuilding(id: ID!, input: BuildingInput!): Building!
+    createRoomAllocation(input: RoomAllocationInput!): RoomAllocation!
+    deleteRoomAllocation(id: ID!): Boolean!
+    createMaintenanceRequest(input: MaintenanceRequestInput!): MaintenanceRequest!
+    updateMaintenanceRequest(id: ID!, input: MaintenanceRequestInput!): MaintenanceRequest!
+    createCampusFacility(input: CampusFacilityInput!): CampusFacility!
+    createTheoryTimetable(input: TheoryTimetableInput!): TheoryTimetable!
+    updateTheoryTimetable(id: ID!, input: TheoryTimetableInput!): TheoryTimetable!
+    deleteTheoryTimetable(id: ID!): Boolean!
+
+    # ===== Analytics =====
+    createAnalyticsSnapshot(input: AnalyticsSnapshotInput!): AnalyticsSnapshot!
+    createAccreditationReport(input: AccreditationReportInput!): AccreditationReport!
+    calculateDepreciation(assetId: ID!, fiscalYear: String!): Depreciation!
+
+    # ===== Library =====
+    createBook(input: BookInput!): Book!
+    updateBook(id: ID!, input: BookInput!): Book!
+    deleteBook(id: ID!): Boolean!
+    issueBook(input: BookIssueInput!): BookIssue!
+    returnBook(issueId: ID!): BookIssue!
+    createLibraryMember(input: LibraryMemberInput!): LibraryMember!
+    updateLibraryMember(id: ID!, input: LibraryMemberInput!): LibraryMember!
+    reserveBook(input: BookReservationInput!): BookReservation!
+    cancelReservation(id: ID!): BookReservation!
+    createDigitalResource(input: DigitalResourceInput!): DigitalResource!
+    updateDigitalResource(id: ID!, input: DigitalResourceInput!): DigitalResource!
+    deleteDigitalResource(id: ID!): Boolean!
+    payLibraryFine(fineId: ID!): LibraryFine!
+
+    # ===== Hostel =====
+    createHostel(input: HostelInput!): Hostel!
+    updateHostel(id: ID!, input: HostelInput!): Hostel!
+    createHostelRoom(input: HostelRoomInput!): HostelRoom!
+    updateHostelRoom(id: ID!, input: HostelRoomInput!): HostelRoom!
+    allocateHostelRoom(input: HostelAllocationInput!): HostelAllocation!
+    vacateHostelRoom(allocationId: ID!): HostelAllocation!
+    createMessMenu(input: MessMenuInput!): MessMenu!
+    updateMessMenu(id: ID!, input: MessMenuInput!): MessMenu!
+    createHostelFee(input: HostelFeeInput!): HostelFee!
+    logVisitor(input: VisitorLogInput!): VisitorLog!
+    markVisitorOut(visitorLogId: ID!): VisitorLog!
+
+    # ===== Placement =====
+    createCompany(input: CompanyInput!): Company!
+    updateCompany(id: ID!, input: CompanyInput!): Company!
+    deleteCompany(id: ID!): Boolean!
+    createPlacementDrive(input: PlacementDriveInput!): PlacementDrive!
+    updatePlacementDrive(id: ID!, input: PlacementDriveInput!): PlacementDrive!
+    applyToPlacementDrive(input: PlacementApplicationInput!): PlacementApplication!
+    updatePlacementApplicationStatus(id: ID!, status: String!): PlacementApplication!
+    createPlacementOffer(input: PlacementOfferInput!): PlacementOffer!
+    updatePlacementOfferStatus(id: ID!, status: String!): PlacementOffer!
+    createInternship(input: InternshipInput!): Internship!
+    updateInternship(id: ID!, input: InternshipInput!): Internship!
+    generatePlacementStatistics(academicYearId: ID!, departmentId: ID!): PlacementStatistics!
+
+    # ===== Transport =====
+    createVehicle(input: VehicleInput!): Vehicle!
+    updateVehicle(id: ID!, input: VehicleInput!): Vehicle!
+    createTransportRoute(input: TransportRouteInput!): TransportRoute!
+    updateTransportRoute(id: ID!, input: TransportRouteInput!): TransportRoute!
+    deleteTransportRoute(id: ID!): Boolean!
+    createTransportPass(input: TransportPassInput!): TransportPass!
+    updateTransportPassStatus(id: ID!, status: String!): TransportPass!
+
+    # ===== Communication =====
+    createAnnouncement(input: AnnouncementInput!): Announcement!
+    updateAnnouncement(id: ID!, input: AnnouncementInput!): Announcement!
+    deleteAnnouncement(id: ID!): Boolean!
+    markNotificationRead(id: ID!): Notification!
+    markAllNotificationsRead(recipientKeycloakId: String!): Boolean!
+    saveNotificationPreference(input: NotificationPreferenceInput!): NotificationPreference!
+    sendMessage(input: MessageInput!): Message!
+    markMessageRead(id: ID!): Message!
+
+    # ===== Grievance =====
+    createGrievance(input: GrievanceInput!): Grievance!
+    updateGrievance(id: ID!, input: GrievanceUpdateInput!): Grievance!
+    assignGrievance(id: ID!, assignedTo: String!): Grievance!
+    resolveGrievance(id: ID!, resolution: String!): Grievance!
+    addGrievanceComment(input: GrievanceCommentInput!): GrievanceComment!
+    createFeedbackForm(input: FeedbackFormInput!): FeedbackForm!
+    updateFeedbackForm(id: ID!, input: FeedbackFormInput!): FeedbackForm!
+    submitFeedbackResponse(input: FeedbackResponseInput!): FeedbackResponse!
+}
+
+type Subscription {
+    notificationReceived(recipientKeycloakId: String!): Notification!
+    announcementPosted: Announcement!
+    grievanceStatusChanged(grievanceId: ID!): Grievance!
+}

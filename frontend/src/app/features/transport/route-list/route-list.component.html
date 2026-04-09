@@ -1,0 +1,31 @@
+<div class="list-container">
+  <div class="list-header">
+    <h2>Transport Routes</h2>
+  </div>
+
+  <mat-table [dataSource]="service.routes()" class="list-table">
+
+    <ng-container matColumnDef="routeName">
+      <mat-header-cell *matHeaderCellDef>Route Name</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.routeName }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="stops">
+      <mat-header-cell *matHeaderCellDef>Stops</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.stops }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="distanceKm">
+      <mat-header-cell *matHeaderCellDef>Distance Km</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.distanceKm }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.status }}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns" />
+    <mat-row *matRowDef="let row; columns: displayedColumns" />
+  </mat-table>
+</div>

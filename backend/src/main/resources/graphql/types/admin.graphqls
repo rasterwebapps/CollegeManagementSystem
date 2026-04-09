@@ -1,0 +1,116 @@
+# ===== Administration Types =====
+
+type Department {
+    id: ID!
+    name: String!
+    code: String!
+    hod: FacultyProfile
+    vision: String
+    mission: String
+    establishedYear: Int
+    accreditationStatus: String
+    budgetAllocated: BigDecimal
+    email: String
+    phone: String
+    officeLocation: String
+    website: String
+    programs: [Program!]!
+    faculty: [FacultyProfile!]!
+    labs: [Lab!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type Program {
+    id: ID!
+    name: String!
+    code: String!
+    department: Department!
+    durationYears: Int!
+    degreeType: String!
+    coordinator: FacultyProfile
+    totalIntake: Int
+    eligibilityCriteria: String
+    accreditationStatus: String
+    accreditationValidUntil: Date
+    programLearningOutcomes: String
+    curriculumVersion: String
+    courses: [Course!]!
+    students: [StudentProfile!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type Course {
+    id: ID!
+    name: String!
+    code: String!
+    program: Program!
+    credits: Int!
+    courseType: String!
+    category: String
+    prerequisites: String
+    corequisites: String
+    teachingMethodology: String
+    evaluationScheme: String
+    maxStudents: Int
+    syllabi: [Syllabus!]!
+    outcomes: [CourseOutcome!]!
+    feedback: [CourseFeedback!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type AcademicYear {
+    id: ID!
+    name: String!
+    startDate: Date!
+    endDate: Date!
+    active: Boolean!
+    semesters: [Semester!]!
+    calendarEvents: [CalendarEvent!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type Semester {
+    id: ID!
+    name: String!
+    semesterNumber: Int!
+    academicYear: AcademicYear!
+    startDate: Date
+    endDate: Date
+    registrationDeadline: Date
+    examStartDate: Date
+    resultPublishDate: Date
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type CalendarEvent {
+    id: ID!
+    title: String!
+    description: String
+    eventDate: Date!
+    endDate: Date
+    eventType: String!
+    category: String
+    isRecurring: Boolean
+    academicYear: AcademicYear
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type CourseFeedback {
+    id: ID!
+    student: StudentProfile!
+    course: Course!
+    semester: Semester!
+    teachingRating: Int!
+    contentRating: Int!
+    labRating: Int
+    overallRating: Int!
+    comments: String
+    anonymous: Boolean!
+    submittedAt: DateTime!
+}

@@ -1,0 +1,36 @@
+<div class="list-container">
+  <div class="list-header">
+    <h2>Hostels</h2>
+  </div>
+
+  <mat-table [dataSource]="service.hostels()" class="list-table">
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.name }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="code">
+      <mat-header-cell *matHeaderCellDef>Code</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.code }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="hostelType">
+      <mat-header-cell *matHeaderCellDef>Hostel Type</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.hostelType }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="totalCapacity">
+      <mat-header-cell *matHeaderCellDef>Total Capacity</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.totalCapacity }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.status }}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns" />
+    <mat-row *matRowDef="let row; columns: displayedColumns" />
+  </mat-table>
+</div>

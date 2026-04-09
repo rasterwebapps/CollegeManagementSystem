@@ -1,0 +1,94 @@
+# ===== Hostel Types =====
+
+type Hostel {
+    id: ID!
+    name: String!
+    code: String!
+    hostelType: String!
+    warden: FacultyProfile
+    totalCapacity: Int!
+    occupiedCapacity: Int!
+    address: String
+    contactPhone: String
+    contactEmail: String
+    facilities: String
+    status: String!
+    rooms: [HostelRoom!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type HostelRoom {
+    id: ID!
+    hostel: Hostel!
+    roomNumber: String!
+    floor: Int!
+    roomType: String!
+    capacity: Int!
+    occupancy: Int!
+    hasAttachedBathroom: Boolean!
+    hasFurniture: Boolean!
+    monthlyRent: BigDecimal
+    status: String!
+    allocations: [HostelAllocation!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type HostelAllocation {
+    id: ID!
+    student: StudentProfile!
+    room: HostelRoom!
+    academicYear: AcademicYear!
+    allocationDate: Date!
+    vacateDate: Date
+    bedNumber: String
+    status: String!
+    remarks: String
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type MessMenu {
+    id: ID!
+    hostel: Hostel!
+    dayOfWeek: String!
+    mealType: String!
+    items: String!
+    specialDietItems: String
+    effectiveFrom: Date!
+    effectiveTo: Date
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type HostelFee {
+    id: ID!
+    student: StudentProfile!
+    hostel: Hostel!
+    semester: Semester!
+    roomFee: BigDecimal!
+    messFee: BigDecimal!
+    totalFee: BigDecimal!
+    paidAmount: BigDecimal!
+    dueDate: Date
+    status: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type VisitorLog {
+    id: ID!
+    student: StudentProfile!
+    visitorName: String!
+    visitorPhone: String
+    relation: String!
+    purpose: String!
+    idProofType: String
+    idProofNumber: String
+    inTime: DateTime!
+    outTime: DateTime
+    approvedBy: String
+    status: String!
+    createdAt: DateTime!
+}

@@ -1,0 +1,113 @@
+# ===== Placement Types =====
+
+type Company {
+    id: ID!
+    name: String!
+    industry: String!
+    website: String
+    contactPerson: String
+    contactEmail: String
+    contactPhone: String
+    address: String
+    description: String
+    tier: String!
+    agreementStatus: String
+    lastVisitDate: Date
+    drives: [PlacementDrive!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type PlacementDrive {
+    id: ID!
+    company: Company!
+    academicYear: AcademicYear!
+    title: String!
+    driveDate: Date!
+    lastDateToApply: Date!
+    eligibleDepartments: String
+    eligibilityCriteria: String
+    minCGPA: BigDecimal
+    maxBacklogs: Int
+    rolesOffered: String!
+    packageMin: BigDecimal!
+    packageMax: BigDecimal
+    jobLocation: String
+    selectionProcess: String
+    bondDetails: String
+    status: String!
+    applications: [PlacementApplication!]!
+    offers: [PlacementOffer!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type PlacementApplication {
+    id: ID!
+    student: StudentProfile!
+    drive: PlacementDrive!
+    applicationDate: Date!
+    resumeUrl: String
+    status: String!
+    currentRound: String
+    remarks: String
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type PlacementOffer {
+    id: ID!
+    student: StudentProfile!
+    company: Company!
+    drive: PlacementDrive
+    role: String!
+    packageAmount: BigDecimal!
+    joiningDate: Date
+    offerLetterUrl: String
+    offerDate: Date!
+    responseDeadline: Date
+    status: String!
+    remarks: String
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type Internship {
+    id: ID!
+    student: StudentProfile!
+    company: Company
+    companyName: String!
+    role: String!
+    department: String
+    startDate: Date!
+    endDate: Date!
+    stipend: BigDecimal
+    mentorName: String
+    mentorEmail: String
+    internshipType: String!
+    completionCertificateUrl: String
+    reportUrl: String
+    rating: BigDecimal
+    status: String!
+    remarks: String
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type PlacementStatistics {
+    id: ID!
+    academicYear: AcademicYear!
+    department: Department!
+    totalEligible: Int!
+    totalRegistered: Int!
+    totalPlaced: Int!
+    totalOffers: Int!
+    highestPackage: BigDecimal
+    lowestPackage: BigDecimal
+    averagePackage: BigDecimal
+    medianPackage: BigDecimal
+    placementPercentage: BigDecimal!
+    companiesVisited: Int!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}

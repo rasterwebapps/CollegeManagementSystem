@@ -1,0 +1,167 @@
+# ===== Finance Types =====
+
+type FeeStructure {
+    id: ID!
+    program: Program!
+    semester: Semester!
+    feeType: String!
+    amount: BigDecimal!
+    currency: String!
+    effectiveFrom: Date!
+    effectiveTo: Date
+    dueDate: Date
+    lateFeePerDay: BigDecimal
+    status: String!
+    installments: [FeeInstallment!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type Payment {
+    id: ID!
+    student: StudentProfile!
+    feeStructure: FeeStructure!
+    amount: BigDecimal!
+    paymentDate: Date!
+    paymentMethod: String!
+    transactionReference: String
+    receiptNumber: String
+    status: String!
+    remarks: String
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type LabFee {
+    id: ID!
+    lab: Lab!
+    course: Course!
+    semester: Semester!
+    amount: BigDecimal!
+    description: String
+    status: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type FeeInstallment {
+    id: ID!
+    feeStructure: FeeStructure!
+    student: StudentProfile!
+    installmentNumber: Int!
+    amount: BigDecimal!
+    dueDate: Date!
+    paidDate: Date
+    paidAmount: BigDecimal
+    lateFee: BigDecimal
+    status: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type FeeConcession {
+    id: ID!
+    student: StudentProfile!
+    feeStructure: FeeStructure!
+    concessionType: String!
+    amount: BigDecimal!
+    percentage: BigDecimal
+    reason: String!
+    approvedBy: String
+    approvedDate: Date
+    status: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type Refund {
+    id: ID!
+    student: StudentProfile!
+    payment: Payment!
+    amount: BigDecimal!
+    reason: String!
+    approvedBy: String
+    processedDate: Date
+    refundMethod: String
+    transactionReference: String
+    status: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type Expense {
+    id: ID!
+    department: Department
+    category: String!
+    description: String!
+    amount: BigDecimal!
+    expenseDate: Date!
+    vendor: String
+    invoiceNumber: String
+    approvedBy: String
+    status: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type DepartmentBudget {
+    id: ID!
+    department: Department!
+    financialYear: FinancialYear!
+    allocatedAmount: BigDecimal!
+    utilizedAmount: BigDecimal!
+    remainingAmount: BigDecimal!
+    category: String!
+    status: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type FinancialYear {
+    id: ID!
+    name: String!
+    startDate: Date!
+    endDate: Date!
+    active: Boolean!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type SalaryStructure {
+    id: ID!
+    designation: String!
+    level: String!
+    basicPay: BigDecimal!
+    dearnessAllowance: BigDecimal!
+    houseRentAllowance: BigDecimal!
+    specialAllowance: BigDecimal
+    medicalAllowance: BigDecimal
+    transportAllowance: BigDecimal
+    grossPay: BigDecimal!
+    pfDeduction: BigDecimal!
+    taxDeduction: BigDecimal
+    otherDeductions: BigDecimal
+    netPay: BigDecimal!
+    effectiveFrom: Date!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type Payroll {
+    id: ID!
+    faculty: FacultyProfile!
+    month: Int!
+    year: Int!
+    salaryStructure: SalaryStructure!
+    basicPay: BigDecimal!
+    totalAllowances: BigDecimal!
+    grossPay: BigDecimal!
+    totalDeductions: BigDecimal!
+    netPay: BigDecimal!
+    paymentDate: Date
+    paymentMethod: String
+    transactionReference: String
+    status: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}

@@ -1,0 +1,40 @@
+# ===== Attendance Types =====
+
+type LabAttendance {
+    id: ID!
+    student: StudentProfile!
+    experiment: Experiment!
+    labTimetable: LabTimetable!
+    attendanceDate: Date!
+    status: String!
+    remarks: String
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type TheoryAttendance {
+    id: ID!
+    student: StudentProfile!
+    course: Course!
+    semester: Semester!
+    theoryTimetable: TheoryTimetable
+    attendanceDate: Date!
+    status: String!
+    remarks: String
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type AttendanceAlert {
+    id: ID!
+    student: StudentProfile!
+    course: Course!
+    alertType: String!
+    message: String
+    thresholdPercentage: BigDecimal!
+    currentPercentage: BigDecimal!
+    resolved: Boolean!
+    resolvedDate: Date
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}

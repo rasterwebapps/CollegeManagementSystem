@@ -1,0 +1,1144 @@
+# ===== Input Types for Mutations =====
+
+# ----- Administration Inputs -----
+input DepartmentInput {
+    name: String!
+    code: String!
+    hodId: ID
+    vision: String
+    mission: String
+    establishedYear: Int
+    accreditationStatus: String
+    budgetAllocated: BigDecimal
+    email: String
+    phone: String
+    officeLocation: String
+    website: String
+}
+
+input ProgramInput {
+    name: String!
+    code: String!
+    departmentId: ID!
+    durationYears: Int!
+    degreeType: String!
+    coordinatorId: ID
+    totalIntake: Int
+    eligibilityCriteria: String
+    accreditationStatus: String
+    accreditationValidUntil: Date
+    programLearningOutcomes: String
+    curriculumVersion: String
+}
+
+input CourseInput {
+    name: String!
+    code: String!
+    programId: ID!
+    credits: Int!
+    courseType: String!
+    category: String
+    prerequisites: String
+    corequisites: String
+    teachingMethodology: String
+    evaluationScheme: String
+    maxStudents: Int
+}
+
+input AcademicYearInput {
+    name: String!
+    startDate: Date!
+    endDate: Date!
+    active: Boolean!
+}
+
+input SemesterInput {
+    name: String!
+    semesterNumber: Int!
+    academicYearId: ID!
+    startDate: Date
+    endDate: Date
+}
+
+input CalendarEventInput {
+    title: String!
+    description: String
+    eventDate: Date!
+    endDate: Date
+    eventType: String!
+    category: String
+    isRecurring: Boolean
+    academicYearId: ID
+}
+
+input CourseFeedbackInput {
+    studentId: ID!
+    courseId: ID!
+    semesterId: ID!
+    teachingRating: Int!
+    contentRating: Int!
+    labRating: Int
+    overallRating: Int!
+    comments: String
+    anonymous: Boolean!
+}
+
+# ----- Student Inputs -----
+input StudentProfileInput {
+    keycloakId: String!
+    enrollmentNumber: String!
+    firstName: String!
+    lastName: String!
+    email: String!
+    phone: String
+    dateOfBirth: Date
+    gender: String
+    bloodGroup: String
+    nationality: String
+    category: String
+    religion: String
+    aadhaarNumber: String
+    photoUrl: String
+    emergencyContactName: String
+    emergencyContactPhone: String
+    medicalConditions: String
+    permanentAddress: String
+    correspondenceAddress: String
+    programId: ID!
+    departmentId: ID!
+    currentSemester: Int!
+    admissionDate: Date!
+    status: String
+}
+
+input StudentFilterInput {
+    departmentId: ID
+    programId: ID
+    semester: Int
+    status: String
+    searchTerm: String
+}
+
+input StudentEnrollmentInput {
+    studentId: ID!
+    courseId: ID!
+    semesterId: ID!
+    labBatchGroup: String
+    enrollmentDate: Date!
+    status: String
+}
+
+input AdmissionInput {
+    studentId: ID!
+    applicationNumber: String!
+    programId: ID!
+    admissionDate: Date!
+    admissionType: String!
+    entranceExamName: String
+    entranceExamRank: Int
+    entranceExamScore: BigDecimal
+    meritRank: Int
+    quotaCategory: String
+    status: String!
+    remarks: String
+}
+
+input AdmissionFilterInput {
+    programId: ID
+    status: String
+    admissionType: String
+    academicYear: String
+}
+
+input GpaRecordInput {
+    studentId: ID!
+    semesterId: ID!
+    semesterGpa: BigDecimal!
+    cgpa: BigDecimal!
+    totalCredits: Int!
+    earnedCredits: Int!
+    labComponentGpa: BigDecimal
+    calculationDate: Date!
+    status: String
+}
+
+input ScholarshipInput {
+    studentId: ID!
+    name: String!
+    amount: BigDecimal!
+    scholarshipType: String!
+    provider: String
+    awardedDate: Date!
+    expiryDate: Date
+    renewalCriteria: String
+    status: String!
+    remarks: String
+}
+
+input StudentGuardianInput {
+    studentId: ID!
+    name: String!
+    relation: String!
+    phone: String!
+    email: String
+    occupation: String
+    annualIncome: BigDecimal
+    address: String
+    isPrimary: Boolean!
+}
+
+input StudentDocumentInput {
+    studentId: ID!
+    documentType: String!
+    documentName: String!
+    fileUrl: String!
+    uploadDate: Date!
+    remarks: String
+}
+
+input StudentAchievementInput {
+    studentId: ID!
+    title: String!
+    category: String!
+    level: String!
+    date: Date!
+    description: String
+    certificateUrl: String
+    awardedBy: String
+}
+
+input StudentPreviousEducationInput {
+    studentId: ID!
+    level: String!
+    boardOrUniversity: String!
+    institutionName: String!
+    yearOfPassing: Int!
+    percentage: BigDecimal!
+    subjects: String
+    certificateUrl: String
+}
+
+input DisciplinaryRecordInput {
+    studentId: ID!
+    incidentDate: Date!
+    category: String!
+    description: String!
+    actionTaken: String
+    severity: String!
+    reportedBy: String!
+    status: String!
+    resolution: String
+}
+
+input StudentMentorInput {
+    studentId: ID!
+    facultyId: ID!
+    semesterId: ID!
+    assignedDate: Date!
+    notes: String
+}
+
+input BacklogInput {
+    studentId: ID!
+    courseId: ID!
+    semesterId: ID!
+    attemptNumber: Int!
+    originalMarks: BigDecimal
+    status: String!
+    clearedDate: Date
+    clearedMarks: BigDecimal
+}
+
+# ----- Faculty Inputs -----
+input FacultyProfileInput {
+    keycloakId: String!
+    employeeCode: String!
+    firstName: String!
+    lastName: String!
+    email: String!
+    phone: String
+    dateOfBirth: Date
+    gender: String
+    photoUrl: String
+    departmentId: ID!
+    designation: String!
+    highestQualification: String
+    specialization: String
+    joiningDate: Date!
+    experience: Int
+    status: String
+}
+
+input FacultyLabExpertiseInput {
+    facultyId: ID!
+    labTypeId: ID!
+    proficiencyLevel: String!
+    certifiedDate: Date
+}
+
+input FacultyLabAssignmentInput {
+    facultyId: ID!
+    labId: ID!
+    semesterId: ID!
+    assignedDate: Date!
+    active: Boolean!
+}
+
+input FacultyQualificationInput {
+    facultyId: ID!
+    degree: String!
+    fieldOfStudy: String!
+    university: String!
+    yearOfCompletion: Int!
+    grade: String
+    thesisTitle: String
+}
+
+input ResearchPublicationInput {
+    facultyId: ID!
+    title: String!
+    publicationType: String!
+    journalOrConference: String!
+    year: Int!
+    volume: String
+    pages: String
+    doi: String
+    impactFactor: BigDecimal
+    indexing: String
+    coAuthors: String
+    abstract: String
+    url: String
+}
+
+input FacultyWorkloadInput {
+    facultyId: ID!
+    semesterId: ID!
+    teachingHours: Int!
+    labHours: Int!
+    adminHours: Int!
+    researchHours: Int!
+    maxAllowedHours: Int!
+}
+
+input FacultyAppraisalInput {
+    facultyId: ID!
+    academicYearId: ID!
+    teachingRating: BigDecimal!
+    researchRating: BigDecimal!
+    adminRating: BigDecimal!
+    studentFeedbackRating: BigDecimal
+    selfAssessment: String
+    reviewerComments: String
+    reviewedBy: String!
+    appraisalDate: Date!
+}
+
+input LeaveApplicationInput {
+    facultyId: ID!
+    leaveTypeId: ID!
+    fromDate: Date!
+    toDate: Date!
+    reason: String!
+}
+
+input CommitteeMembershipInput {
+    facultyId: ID!
+    committeeName: String!
+    role: String!
+    startDate: Date!
+    endDate: Date
+    description: String
+}
+
+# ----- Lab Inputs -----
+input LabInput {
+    name: String!
+    code: String!
+    labTypeId: ID!
+    departmentId: ID!
+    location: String
+    capacity: Int!
+    status: String
+}
+
+input LabTypeInput {
+    name: String!
+    description: String
+}
+
+input EquipmentInput {
+    labId: ID!
+    name: String!
+    modelNumber: String
+    serialNumber: String
+    manufacturer: String
+    purchaseDate: Date
+    purchaseCost: BigDecimal
+    warrantyExpiry: Date
+    status: String
+}
+
+input ConsumableStockInput {
+    labId: ID!
+    itemName: String!
+    quantity: Int!
+    unit: String!
+    minimumThreshold: Int!
+    unitCost: BigDecimal
+    supplier: String
+    status: String
+}
+
+input LabTimetableInput {
+    labId: ID!
+    courseId: ID!
+    semesterId: ID!
+    facultyId: ID!
+    dayOfWeek: String!
+    startTime: Time!
+    endTime: Time!
+    batchGroup: String
+}
+
+input LabStaffAssignmentInput {
+    labId: ID!
+    staffKeycloakId: String!
+    staffRole: String!
+    assignedDate: Date!
+    endDate: Date
+}
+
+input LabSafetyRecordInput {
+    labId: ID!
+    recordType: String!
+    inspectionDate: Date!
+    nextInspectionDate: Date
+    inspectedBy: String!
+    complianceStatus: String!
+    certificateNumber: String
+    findings: String
+    correctiveActions: String
+}
+
+input LabReservationInput {
+    labId: ID!
+    reservedByKeycloakId: String!
+    reservedByName: String!
+    purpose: String!
+    reservationDate: Date!
+    startTime: Time!
+    endTime: Time!
+    attendeeCount: Int
+}
+
+input SoftwareLicenseInput {
+    labId: ID!
+    softwareName: String!
+    vendor: String!
+    licenseType: String!
+    licenseKey: String
+    totalLicenses: Int!
+    purchaseDate: Date!
+    expiryDate: Date!
+    annualCost: BigDecimal
+}
+
+input MaintenanceScheduleInput {
+    equipmentId: ID!
+    maintenanceType: String!
+    scheduledDate: Date!
+    completedDate: Date
+    performedBy: String
+    cost: BigDecimal
+    notes: String
+    status: String
+}
+
+# ----- Attendance Inputs -----
+input LabAttendanceInput {
+    studentId: ID!
+    experimentId: ID!
+    labTimetableId: ID!
+    attendanceDate: Date!
+    status: String!
+    remarks: String
+}
+
+input TheoryAttendanceInput {
+    studentId: ID!
+    courseId: ID!
+    semesterId: ID!
+    theoryTimetableId: ID
+    attendanceDate: Date!
+    status: String!
+    remarks: String
+}
+
+input AttendanceAlertInput {
+    studentId: ID!
+    courseId: ID!
+    alertType: String!
+    message: String
+    thresholdPercentage: BigDecimal!
+    currentPercentage: BigDecimal!
+}
+
+# ----- Finance Inputs -----
+input FeeStructureInput {
+    programId: ID!
+    semesterId: ID!
+    feeType: String!
+    amount: BigDecimal!
+    currency: String
+    effectiveFrom: Date!
+    effectiveTo: Date
+    dueDate: Date
+    lateFeePerDay: BigDecimal
+    status: String
+}
+
+input PaymentInput {
+    studentId: ID!
+    feeStructureId: ID!
+    amount: BigDecimal!
+    paymentDate: Date!
+    paymentMethod: String!
+    transactionReference: String
+    remarks: String
+}
+
+input LabFeeInput {
+    labId: ID!
+    courseId: ID!
+    semesterId: ID!
+    amount: BigDecimal!
+    description: String
+}
+
+input FeeInstallmentInput {
+    feeStructureId: ID!
+    studentId: ID!
+    installmentNumber: Int!
+    amount: BigDecimal!
+    dueDate: Date!
+    paidDate: Date
+    paidAmount: BigDecimal
+    lateFee: BigDecimal
+    status: String
+}
+
+input FeeConcessionInput {
+    studentId: ID!
+    feeStructureId: ID!
+    concessionType: String!
+    amount: BigDecimal!
+    percentage: BigDecimal
+    reason: String!
+}
+
+input RefundInput {
+    studentId: ID!
+    paymentId: ID!
+    amount: BigDecimal!
+    reason: String!
+}
+
+input ExpenseInput {
+    departmentId: ID
+    category: String!
+    description: String!
+    amount: BigDecimal!
+    expenseDate: Date!
+    vendor: String
+    invoiceNumber: String
+}
+
+input DepartmentBudgetInput {
+    departmentId: ID!
+    financialYearId: ID!
+    allocatedAmount: BigDecimal!
+    utilizedAmount: BigDecimal
+    category: String!
+}
+
+input FinancialYearInput {
+    name: String!
+    startDate: Date!
+    endDate: Date!
+    active: Boolean!
+}
+
+input SalaryStructureInput {
+    designation: String!
+    level: String!
+    basicPay: BigDecimal!
+    dearnessAllowance: BigDecimal!
+    houseRentAllowance: BigDecimal!
+    specialAllowance: BigDecimal
+    medicalAllowance: BigDecimal
+    transportAllowance: BigDecimal
+    pfDeduction: BigDecimal!
+    taxDeduction: BigDecimal
+    otherDeductions: BigDecimal
+    effectiveFrom: Date!
+}
+
+input PayrollInput {
+    facultyId: ID!
+    month: Int!
+    year: Int!
+    salaryStructureId: ID!
+    paymentMethod: String
+}
+
+# ----- Examination Inputs -----
+input PracticalExamInput {
+    courseId: ID!
+    semesterId: ID!
+    experimentId: ID!
+    examDate: Date!
+    startTime: String
+    endTime: String
+    labId: ID!
+    maxMarks: BigDecimal!
+    passingMarks: BigDecimal!
+    examiner: String
+    status: String
+}
+
+input ContinuousEvaluationInput {
+    studentId: ID!
+    courseId: ID!
+    experimentId: ID
+    semesterId: ID!
+    evaluationType: String!
+    marksObtained: BigDecimal!
+    maxMarks: BigDecimal!
+    evaluationDate: Date
+    remarks: String
+}
+
+input ExamScheduleInput {
+    courseId: ID!
+    semesterId: ID!
+    examType: String!
+    date: Date!
+    startTime: Time!
+    duration: Int!
+    roomId: ID
+    maxMarks: BigDecimal!
+    passingMarks: BigDecimal!
+    internalMarksWeight: BigDecimal
+    externalMarksWeight: BigDecimal
+}
+
+input StudentMarkInput {
+    studentId: ID!
+    examId: ID
+    courseId: ID!
+    semesterId: ID!
+    internalMarks: BigDecimal
+    externalMarks: BigDecimal
+    totalMarks: BigDecimal!
+    maxMarks: BigDecimal!
+    result: String!
+    remarks: String
+}
+
+input GradeScaleInput {
+    grade: String!
+    minPercentage: BigDecimal!
+    maxPercentage: BigDecimal!
+    gradePoint: BigDecimal!
+    description: String
+}
+
+input RevaluationRequestInput {
+    studentId: ID!
+    examId: ID!
+    courseId: ID!
+    reason: String!
+    fee: BigDecimal
+}
+
+input QuestionBankEntryInput {
+    courseId: ID!
+    unit: Int!
+    question: String!
+    questionType: String!
+    bloomLevel: String!
+    difficultyLevel: String!
+    marks: BigDecimal!
+    expectedAnswer: String
+    options: String
+    createdBy: String!
+}
+
+input QuestionPaperInput {
+    examId: ID!
+    courseId: ID!
+    totalMarks: BigDecimal!
+    duration: Int!
+    instructions: String
+    sections: String
+    questionIds: [ID!]!
+    createdBy: String!
+}
+
+# ----- Curriculum Inputs -----
+input SyllabusInput {
+    courseId: ID!
+    academicYearId: ID!
+    content: String
+    objectives: String
+    textbooks: String
+    referenceBooks: String
+    onlineResources: String
+    teachingPlan: String
+    status: String
+}
+
+input CourseOutcomeInput {
+    syllabusId: ID!
+    code: String!
+    description: String!
+    bloomLevel: String!
+    programOutcomeMapping: String
+}
+
+input ExperimentInput {
+    syllabusId: ID!
+    experimentNumber: Int!
+    title: String!
+    description: String
+    labTypeId: ID!
+    durationHours: Int!
+    prerequisites: String
+    safetyPrecautions: String
+}
+
+input ExperimentOutcomeMappingInput {
+    experimentId: ID!
+    courseOutcomeId: ID!
+}
+
+# ----- Infrastructure Inputs -----
+input AssetInput {
+    equipmentId: ID
+    assetCode: String!
+    name: String!
+    category: String!
+    purchaseDate: Date!
+    purchaseCost: BigDecimal!
+    usefulLifeYears: Int!
+    depreciationMethod: String!
+    location: String
+    status: String
+}
+
+input RoomResourceInput {
+    roomNumber: String!
+    building: String!
+    floor: Int!
+    roomType: String!
+    capacity: Int!
+    labId: ID
+    hasProjector: Boolean
+    hasAC: Boolean
+    hasWhiteboard: Boolean
+    status: String
+}
+
+input BuildingInput {
+    name: String!
+    code: String!
+    address: String
+    totalFloors: Int!
+    yearBuilt: Int
+    status: String
+}
+
+input RoomAllocationInput {
+    roomId: ID!
+    purpose: String!
+    allocatedTo: String!
+    dayOfWeek: String!
+    startTime: Time!
+    endTime: Time!
+    semesterId: ID
+}
+
+input MaintenanceRequestInput {
+    requesterKeycloakId: String!
+    requesterName: String!
+    location: String!
+    category: String!
+    description: String!
+    priority: String!
+    status: String
+    assignedTo: String
+    estimatedCost: BigDecimal
+    resolution: String
+}
+
+input CampusFacilityInput {
+    name: String!
+    facilityType: String!
+    location: String!
+    capacity: Int
+    operatingHours: String
+    inchargeName: String
+    inchargePhone: String
+    description: String
+}
+
+input TheoryTimetableInput {
+    courseId: ID!
+    facultyId: ID!
+    roomId: ID!
+    semesterId: ID!
+    dayOfWeek: String!
+    startTime: Time!
+    endTime: Time!
+    section: String
+}
+
+# ----- Analytics Inputs -----
+input AnalyticsSnapshotInput {
+    departmentId: ID
+    programId: ID
+    semesterId: ID
+    snapshotType: String!
+    metricName: String!
+    metricValue: BigDecimal!
+    snapshotDate: Date!
+    details: String
+}
+
+input AccreditationReportInput {
+    departmentId: ID
+    reportType: String!
+    academicYear: String
+    generatedDate: Date!
+    overallScore: BigDecimal
+    status: String!
+    summary: String
+    criteria: String
+}
+
+# ----- Library Inputs -----
+input BookInput {
+    isbn: String!
+    title: String!
+    author: String!
+    publisher: String
+    edition: String
+    publicationYear: Int
+    category: String!
+    subCategory: String
+    language: String!
+    pages: Int
+    shelfLocation: String!
+    totalCopies: Int!
+    description: String
+    coverImageUrl: String
+}
+
+input BookFilterInput {
+    searchTerm: String
+    category: String
+    author: String
+    available: Boolean
+}
+
+input BookIssueInput {
+    bookId: ID!
+    memberId: ID!
+    dueDate: Date!
+    issuedBy: String!
+}
+
+input LibraryMemberInput {
+    studentProfileId: ID
+    facultyProfileId: ID
+    memberType: String!
+    maxBooksAllowed: Int!
+    expiryDate: Date
+}
+
+input BookReservationInput {
+    bookId: ID!
+    memberId: ID!
+}
+
+input DigitalResourceInput {
+    title: String!
+    resourceType: String!
+    author: String
+    publisher: String
+    url: String!
+    accessLevel: String!
+    category: String!
+    description: String
+    fileFormat: String
+    fileSize: String
+    expiryDate: Date
+}
+
+# ----- Hostel Inputs -----
+input HostelInput {
+    name: String!
+    code: String!
+    hostelType: String!
+    wardenId: ID
+    totalCapacity: Int!
+    address: String
+    contactPhone: String
+    contactEmail: String
+    facilities: String
+}
+
+input HostelRoomInput {
+    hostelId: ID!
+    roomNumber: String!
+    floor: Int!
+    roomType: String!
+    capacity: Int!
+    hasAttachedBathroom: Boolean
+    hasFurniture: Boolean
+    monthlyRent: BigDecimal
+    status: String
+}
+
+input HostelAllocationInput {
+    studentId: ID!
+    roomId: ID!
+    academicYearId: ID!
+    bedNumber: String
+    remarks: String
+}
+
+input MessMenuInput {
+    hostelId: ID!
+    dayOfWeek: String!
+    mealType: String!
+    items: String!
+    specialDietItems: String
+    effectiveFrom: Date!
+    effectiveTo: Date
+}
+
+input HostelFeeInput {
+    studentId: ID!
+    hostelId: ID!
+    semesterId: ID!
+    roomFee: BigDecimal!
+    messFee: BigDecimal!
+    dueDate: Date
+}
+
+input VisitorLogInput {
+    studentId: ID!
+    visitorName: String!
+    visitorPhone: String
+    relation: String!
+    purpose: String!
+    idProofType: String
+    idProofNumber: String
+}
+
+# ----- Placement Inputs -----
+input CompanyInput {
+    name: String!
+    industry: String!
+    website: String
+    contactPerson: String
+    contactEmail: String
+    contactPhone: String
+    address: String
+    description: String
+    tier: String!
+    agreementStatus: String
+}
+
+input CompanyFilterInput {
+    industry: String
+    tier: String
+    searchTerm: String
+}
+
+input PlacementDriveInput {
+    companyId: ID!
+    academicYearId: ID!
+    title: String!
+    driveDate: Date!
+    lastDateToApply: Date!
+    eligibleDepartments: String
+    eligibilityCriteria: String
+    minCGPA: BigDecimal
+    maxBacklogs: Int
+    rolesOffered: String!
+    packageMin: BigDecimal!
+    packageMax: BigDecimal
+    jobLocation: String
+    selectionProcess: String
+    bondDetails: String
+}
+
+input PlacementApplicationInput {
+    studentId: ID!
+    driveId: ID!
+    resumeUrl: String
+}
+
+input PlacementOfferInput {
+    studentId: ID!
+    companyId: ID!
+    driveId: ID
+    role: String!
+    packageAmount: BigDecimal!
+    joiningDate: Date
+    offerLetterUrl: String
+    responseDeadline: Date
+}
+
+input InternshipInput {
+    studentId: ID!
+    companyId: ID
+    companyName: String!
+    role: String!
+    department: String
+    startDate: Date!
+    endDate: Date!
+    stipend: BigDecimal
+    mentorName: String
+    mentorEmail: String
+    internshipType: String!
+    status: String
+}
+
+# ----- Transport Inputs -----
+input VehicleInput {
+    registrationNumber: String!
+    vehicleType: String!
+    make: String
+    model: String
+    capacity: Int!
+    driverName: String!
+    driverPhone: String!
+    driverLicenseNumber: String
+    insuranceExpiry: Date
+    fitnessExpiry: Date
+    status: String
+}
+
+input TransportRouteInput {
+    routeName: String!
+    routeNumber: String!
+    vehicleId: ID
+    startPoint: String!
+    endPoint: String!
+    stops: String!
+    departureTime: Time!
+    arrivalTime: Time!
+    distance: BigDecimal
+    estimatedDuration: Int
+    fare: BigDecimal!
+}
+
+input TransportPassInput {
+    studentProfileId: ID
+    facultyProfileId: ID
+    routeId: ID!
+    passType: String!
+    validFrom: Date!
+    validTo: Date!
+    pickupStop: String!
+    dropStop: String!
+}
+
+# ----- Communication Inputs -----
+input AnnouncementInput {
+    title: String!
+    content: String!
+    category: String!
+    targetRoles: String
+    targetDepartments: String
+    priority: String!
+    publishDate: Date!
+    expiryDate: Date
+    attachmentUrl: String
+    pinned: Boolean
+}
+
+input NotificationPreferenceInput {
+    userKeycloakId: String!
+    emailEnabled: Boolean!
+    smsEnabled: Boolean!
+    pushEnabled: Boolean!
+    academicNotifications: Boolean!
+    financeNotifications: Boolean!
+    attendanceNotifications: Boolean!
+    examNotifications: Boolean!
+    placementNotifications: Boolean!
+    libraryNotifications: Boolean!
+    hostelNotifications: Boolean!
+    generalNotifications: Boolean!
+}
+
+input MessageInput {
+    threadId: ID
+    recipientKeycloakIds: [String!]!
+    subject: String
+    body: String!
+    attachmentUrl: String
+    senderKeycloakId: String!
+    senderName: String!
+}
+
+# ----- Grievance Inputs -----
+input GrievanceInput {
+    complainantKeycloakId: String!
+    complainantName: String!
+    complainantRole: String!
+    category: String!
+    subject: String!
+    description: String!
+    priority: String!
+    isAnonymous: Boolean!
+    attachmentUrl: String
+}
+
+input GrievanceUpdateInput {
+    status: String
+    priority: String
+    assignedTo: String
+    resolution: String
+}
+
+input GrievanceCommentInput {
+    grievanceId: ID!
+    commenterKeycloakId: String!
+    commenterName: String!
+    comment: String!
+    isInternal: Boolean!
+    attachmentUrl: String
+}
+
+input FeedbackFormInput {
+    title: String!
+    description: String
+    targetAudience: String!
+    targetCourseId: ID
+    targetFacultyId: ID
+    questions: String!
+    startDate: Date!
+    endDate: Date!
+    anonymous: Boolean!
+}
+
+input FeedbackResponseInput {
+    formId: ID!
+    respondentKeycloakId: String
+    answers: String!
+}

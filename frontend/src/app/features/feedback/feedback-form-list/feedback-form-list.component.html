@@ -1,0 +1,36 @@
+<div class="list-container">
+  <div class="list-header">
+    <h2>Feedback Forms</h2>
+  </div>
+
+  <mat-table [dataSource]="service.forms()" class="list-table">
+
+    <ng-container matColumnDef="title">
+      <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.title }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="targetAudience">
+      <mat-header-cell *matHeaderCellDef>Target Audience</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.targetAudience }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="startDate">
+      <mat-header-cell *matHeaderCellDef>Start Date</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.startDate }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="endDate">
+      <mat-header-cell *matHeaderCellDef>End Date</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.endDate }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.status }}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns" />
+    <mat-row *matRowDef="let row; columns: displayedColumns" />
+  </mat-table>
+</div>

@@ -1,0 +1,36 @@
+<div class="list-container">
+  <div class="list-header">
+    <h2>Maintenance Requests</h2>
+  </div>
+
+  <mat-table [dataSource]="service.maintenanceRequests()" class="list-table">
+
+    <ng-container matColumnDef="requesterName">
+      <mat-header-cell *matHeaderCellDef>Requester Name</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.requesterName }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="location">
+      <mat-header-cell *matHeaderCellDef>Location</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.location }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="priority">
+      <mat-header-cell *matHeaderCellDef>Priority</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.priority }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.status }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="assignedTo">
+      <mat-header-cell *matHeaderCellDef>Assigned To</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.assignedTo }}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns" />
+    <mat-row *matRowDef="let row; columns: displayedColumns" />
+  </mat-table>
+</div>

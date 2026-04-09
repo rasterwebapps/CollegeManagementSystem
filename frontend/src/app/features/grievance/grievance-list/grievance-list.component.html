@@ -1,0 +1,41 @@
+<div class="list-container">
+  <div class="list-header">
+    <h2>Grievances</h2>
+  </div>
+
+  <mat-table [dataSource]="service.grievances()" class="list-table">
+
+    <ng-container matColumnDef="ticketNumber">
+      <mat-header-cell *matHeaderCellDef>Ticket Number</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.ticketNumber }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="complainantName">
+      <mat-header-cell *matHeaderCellDef>Complainant Name</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.complainantName }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="category">
+      <mat-header-cell *matHeaderCellDef>Category</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.category }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="subject">
+      <mat-header-cell *matHeaderCellDef>Subject</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.subject }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="priority">
+      <mat-header-cell *matHeaderCellDef>Priority</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.priority }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.status }}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns" />
+    <mat-row *matRowDef="let row; columns: displayedColumns" />
+  </mat-table>
+</div>

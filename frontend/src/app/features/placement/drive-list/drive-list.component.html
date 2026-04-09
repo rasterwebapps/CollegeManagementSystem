@@ -1,0 +1,36 @@
+<div class="list-container">
+  <div class="list-header">
+    <h2>Placement Drives</h2>
+  </div>
+
+  <mat-table [dataSource]="service.drives()" class="list-table">
+
+    <ng-container matColumnDef="title">
+      <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.title }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="driveDate">
+      <mat-header-cell *matHeaderCellDef>Drive Date</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.driveDate }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="rolesOffered">
+      <mat-header-cell *matHeaderCellDef>Roles Offered</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.rolesOffered }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="packageMin">
+      <mat-header-cell *matHeaderCellDef>Package Min</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.packageMin }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.status }}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns" />
+    <mat-row *matRowDef="let row; columns: displayedColumns" />
+  </mat-table>
+</div>

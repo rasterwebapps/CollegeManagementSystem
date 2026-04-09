@@ -1,0 +1,196 @@
+# ===== Transport Types =====
+
+type Vehicle {
+    id: ID!
+    registrationNumber: String!
+    vehicleType: String!
+    make: String
+    model: String
+    capacity: Int!
+    driverName: String!
+    driverPhone: String!
+    driverLicenseNumber: String
+    insuranceExpiry: Date
+    fitnessExpiry: Date
+    status: String!
+    routes: [TransportRoute!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type TransportRoute {
+    id: ID!
+    routeName: String!
+    routeNumber: String!
+    vehicle: Vehicle
+    startPoint: String!
+    endPoint: String!
+    stops: String!
+    departureTime: Time!
+    arrivalTime: Time!
+    distance: BigDecimal
+    estimatedDuration: Int
+    fare: BigDecimal!
+    status: String!
+    passes: [TransportPass!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type TransportPass {
+    id: ID!
+    studentProfile: StudentProfile
+    facultyProfile: FacultyProfile
+    route: TransportRoute!
+    passNumber: String!
+    passType: String!
+    validFrom: Date!
+    validTo: Date!
+    fee: BigDecimal!
+    paidDate: Date
+    pickupStop: String!
+    dropStop: String!
+    status: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+# ===== Communication Types =====
+
+type Announcement {
+    id: ID!
+    title: String!
+    content: String!
+    category: String!
+    targetRoles: String
+    targetDepartments: String
+    priority: String!
+    postedByKeycloakId: String!
+    postedByName: String!
+    publishDate: Date!
+    expiryDate: Date
+    attachmentUrl: String
+    pinned: Boolean!
+    viewCount: Int!
+    status: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type Notification {
+    id: ID!
+    recipientKeycloakId: String!
+    title: String!
+    message: String!
+    notificationType: String!
+    category: String!
+    link: String
+    read: Boolean!
+    readAt: DateTime
+    sourceEntity: String
+    sourceId: String
+    createdAt: DateTime!
+}
+
+type NotificationPreference {
+    id: ID!
+    userKeycloakId: String!
+    emailEnabled: Boolean!
+    smsEnabled: Boolean!
+    pushEnabled: Boolean!
+    academicNotifications: Boolean!
+    financeNotifications: Boolean!
+    attendanceNotifications: Boolean!
+    examNotifications: Boolean!
+    placementNotifications: Boolean!
+    libraryNotifications: Boolean!
+    hostelNotifications: Boolean!
+    generalNotifications: Boolean!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type Message {
+    id: ID!
+    thread: MessageThread!
+    senderKeycloakId: String!
+    senderName: String!
+    body: String!
+    attachmentUrl: String
+    read: Boolean!
+    readAt: DateTime
+    createdAt: DateTime!
+}
+
+type MessageThread {
+    id: ID!
+    subject: String!
+    participantKeycloakIds: String!
+    participantNames: String!
+    lastMessageAt: DateTime!
+    messageCount: Int!
+    status: String!
+    messages: [Message!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+# ===== Grievance Types =====
+
+type Grievance {
+    id: ID!
+    complainantKeycloakId: String!
+    complainantName: String!
+    complainantRole: String!
+    category: String!
+    subject: String!
+    description: String!
+    priority: String!
+    status: String!
+    assignedTo: String
+    assignedToName: String
+    resolution: String
+    resolutionDate: Date
+    isAnonymous: Boolean!
+    attachmentUrl: String
+    comments: [GrievanceComment!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type GrievanceComment {
+    id: ID!
+    grievance: Grievance!
+    commenterKeycloakId: String!
+    commenterName: String!
+    comment: String!
+    isInternal: Boolean!
+    attachmentUrl: String
+    createdAt: DateTime!
+}
+
+type FeedbackForm {
+    id: ID!
+    title: String!
+    description: String
+    targetAudience: String!
+    targetCourse: Course
+    targetFaculty: FacultyProfile
+    questions: String!
+    startDate: Date!
+    endDate: Date!
+    anonymous: Boolean!
+    totalResponses: Int!
+    status: String!
+    responses: [FeedbackResponse!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type FeedbackResponse {
+    id: ID!
+    form: FeedbackForm!
+    respondentKeycloakId: String
+    answers: String!
+    submittedAt: DateTime!
+}

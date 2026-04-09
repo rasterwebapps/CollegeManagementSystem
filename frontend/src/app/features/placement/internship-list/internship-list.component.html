@@ -1,0 +1,36 @@
+<div class="list-container">
+  <div class="list-header">
+    <h2>Internships</h2>
+  </div>
+
+  <mat-table [dataSource]="service.internships()" class="list-table">
+
+    <ng-container matColumnDef="role">
+      <mat-header-cell *matHeaderCellDef>Role</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.role }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="startDate">
+      <mat-header-cell *matHeaderCellDef>Start Date</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.startDate }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="endDate">
+      <mat-header-cell *matHeaderCellDef>End Date</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.endDate }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="stipend">
+      <mat-header-cell *matHeaderCellDef>Stipend</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.stipend }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.status }}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns" />
+    <mat-row *matRowDef="let row; columns: displayedColumns" />
+  </mat-table>
+</div>

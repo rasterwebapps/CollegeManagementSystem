@@ -1,0 +1,26 @@
+<div class="list-container">
+  <div class="list-header">
+    <h2>Mess Menus</h2>
+  </div>
+
+  <mat-table [dataSource]="service.messMenus()" class="list-table">
+
+    <ng-container matColumnDef="dayOfWeek">
+      <mat-header-cell *matHeaderCellDef>Day Of Week</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.dayOfWeek }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="mealType">
+      <mat-header-cell *matHeaderCellDef>Meal Type</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.mealType }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="items">
+      <mat-header-cell *matHeaderCellDef>Items</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{ row.items }}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns" />
+    <mat-row *matRowDef="let row; columns: displayedColumns" />
+  </mat-table>
+</div>

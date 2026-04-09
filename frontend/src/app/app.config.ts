@@ -6,6 +6,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { routes } from './app.routes';
 import { AuthService } from './core/auth/auth.service';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
+import { provideGraphQL } from './core/graphql/graphql.provider';
 
 function initializeKeycloak(authService: AuthService): () => Promise<boolean> {
   return () => authService.init().catch(() => false);
@@ -17,6 +18,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([authInterceptor])),
     provideAnimationsAsync(),
+    provideGraphQL(),
     {
       provide: APP_INITIALIZER,
       useFactory: initializeKeycloak,

@@ -1,73 +1,236 @@
-.dashboard-container {
+.dashboard {
   padding: 24px;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
-.dashboard-title {
-  font-size: 1.75rem;
-  font-weight: 500;
+// ── Welcome ──
+.welcome-section {
+  margin-bottom: 24px;
+}
+
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 600;
   margin: 0 0 4px;
 }
 
-.welcome-text {
+.page-subtitle {
   color: var(--mat-sys-on-surface-variant);
-  margin: 0 0 24px;
+  margin: 0;
+  font-size: 0.875rem;
 }
 
-.summary-grid {
+// ── KPI Cards ──
+.kpi-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 16px;
   margin-bottom: 24px;
 }
 
-.summary-card {
-  .summary-card-content {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
+.kpi-card {
+  border-radius: 16px !important;
+}
 
-  .summary-icon {
-    font-size: 2.5rem;
-    width: 40px;
-    height: 40px;
-    color: var(--mat-sys-primary);
-  }
+.kpi-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 4px 0;
+}
 
-  .summary-value {
-    font-size: 1.75rem;
-    font-weight: 600;
-    line-height: 1;
-  }
+.kpi-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 
-  .summary-label {
-    font-size: 0.875rem;
-    color: var(--mat-sys-on-surface-variant);
-    margin-top: 4px;
+  mat-icon {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
   }
 }
 
-.utilization-card {
+.kpi-data {
+  display: flex;
+  flex-direction: column;
+}
+
+.kpi-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.kpi-label {
+  font-size: 0.75rem;
+  color: var(--mat-sys-on-surface-variant);
+  margin-top: 2px;
+}
+
+// ── Content Grid ──
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+
+  @media (max-width: 960px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.modules-card,
+.utilization-card,
+.activity-card {
+  border-radius: 16px !important;
+
   mat-card-title {
     display: flex;
     align-items: center;
     gap: 8px;
+    font-size: 1rem;
   }
 }
 
+.modules-card {
+  grid-column: 1 / -1;
+}
+
+// ── Module Tiles ──
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.module-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 16px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    transform 0.1s ease;
+  border: 1px solid var(--mat-sys-outline-variant);
+
+  &:hover {
+    background: var(--mat-sys-surface-container-highest);
+    transform: translateY(-2px);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--mat-sys-primary);
+    outline-offset: 2px;
+  }
+}
+
+.module-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+
+  mat-icon {
+    font-size: 22px;
+    width: 22px;
+    height: 22px;
+  }
+}
+
+.module-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.module-title {
+  font-weight: 500;
+  font-size: 0.8125rem;
+}
+
+.module-count {
+  font-size: 0.6875rem;
+  color: var(--mat-sys-on-surface-variant);
+  margin-top: 2px;
+}
+
+// ── Lab Utilization ──
 .lab-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.lab-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.lab-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .lab-name {
+    font-weight: 500;
+    font-size: 0.875rem;
+  }
+
+  .lab-status {
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: var(--mat-sys-error-container);
+    color: var(--mat-sys-on-error-container);
+
+    &.active {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+  }
+}
+
+.lab-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  mat-progress-bar {
+    flex: 1;
+    border-radius: 4px;
+  }
+
+  .lab-percent {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    min-width: 36px;
+    text-align: right;
+  }
+}
+
+// ── Recent Activity ──
+.activity-list {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.lab-row {
-  display: grid;
-  grid-template-columns: 1fr auto 200px;
+.activity-row {
+  display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   padding: 8px 0;
   border-bottom: 1px solid var(--mat-sys-outline-variant);
 
@@ -76,47 +239,54 @@
   }
 }
 
-.lab-info {
-  .lab-name {
+.activity-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--mat-sys-primary-container);
+  color: var(--mat-sys-on-primary-container);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.activity-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+
+  .activity-title {
+    font-size: 0.8125rem;
     font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
-  .lab-type {
-    font-size: 0.8125rem;
+  .activity-subtitle {
+    font-size: 0.6875rem;
     color: var(--mat-sys-on-surface-variant);
   }
 }
 
-.lab-status {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-
-  .status-icon {
-    font-size: 1rem;
-    width: 16px;
-    height: 16px;
-  }
-
-  .status-text {
-    font-size: 0.8125rem;
-    text-transform: capitalize;
-  }
+.activity-time {
+  font-size: 0.6875rem;
+  color: var(--mat-sys-on-surface-variant);
+  white-space: nowrap;
 }
 
-.lab-utilization {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  mat-progress-bar {
-    flex: 1;
-  }
-
-  .utilization-value {
-    font-size: 0.875rem;
-    font-weight: 500;
-    min-width: 36px;
-    text-align: right;
-  }
+.empty-text {
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 0.875rem;
+  text-align: center;
+  padding: 24px;
+  margin: 0;
 }

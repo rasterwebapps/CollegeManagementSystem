@@ -1,0 +1,159 @@
+package com.cms.service;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.cms.dto.ContinuousEvaluationRequest;
+import com.cms.exception.ResourceNotFoundException;
+import com.cms.model.ContinuousEvaluation;
+import com.cms.model.Course;
+import com.cms.model.Experiment;
+import com.cms.model.Semester;
+import com.cms.model.StudentProfile;
+import com.cms.repository.ContinuousEvaluationRepository;
+import com.cms.repository.CourseRepository;
+import com.cms.repository.ExperimentRepository;
+import com.cms.repository.SemesterRepository;
+import com.cms.repository.StudentProfileRepository;
+
+@ExtendWith(MockitoExtension.class)
+class ContinuousEvaluationServiceTest {
+
+    @Mock private ContinuousEvaluationRepository ceRepo;
+    @Mock private StudentProfileRepository studentRepo;
+    @Mock private CourseRepository courseRepo;
+    @Mock private ExperimentRepository experimentRepo;
+    @Mock private SemesterRepository semesterRepo;
+    @InjectMocks private ContinuousEvaluationService service;
+
+    private ContinuousEvaluation eval;
+    private StudentProfile student;
+    private Course course;
+    private Experiment experiment;
+    private Semester semester;
+
+    @BeforeEach
+    void setUp() {
+        student = new StudentProfile(); student.setId(1L); student.setFirstName("John"); student.setLastName("Doe");
+        course = new Course(); course.setId(1L); course.setName("Physics");
+        experiment = new Experiment(); experiment.setId(1L); experiment.setTitle("Ohm's Law");
+        semester = new Semester(); semester.setId(1L); semester.setName("Fall 2024");
+        eval = new ContinuousEvaluation();
+        eval.setId(1L); eval.setStudent(student); eval.setCourse(course);
+        eval.setExperiment(experiment); eval.setSemester(semester);
+        eval.setEvaluationType("LAB_WORK"); eval.setMarksObtained(new BigDecimal("85.00"));
+        eval.setMaxMarks(new BigDecimal("100.00")); eval.setEvaluationDate(LocalDate.of(2024, 3, 15));
+        eval.setRemarks("Good work");
+    }
+
+    @Test void findAll() {
+        when(ceRepo.findAll()).thenReturn(List.of(eval));
+        assertThat(service.findAll()).hasSize(1);
+    }
+
+    @Test void findById_found() {
+        when(ceRepo.findById(1L)).thenReturn(Optional.of(eval));
+        assertThat(service.findById(1L).evaluationType()).isEqualTo("LAB_WORK");
+    }
+
+    @Test void findById_notFound() {
+        when(ceRepo.findById(99L)).thenReturn(Optional.empty());
+        assertThatThrownBy(() -> service.findById(99L)).isInstanceOf(ResourceNotFoundException.class);
+    }
+
+    @Test void create_success() {
+        ContinuousEvaluationRequest req = new ContinuousEvaluationRequest(1L, 1L, 1L, 1L, "LAB_WORK", new BigDecimal("85"), new BigDecimal("100"), LocalDate.of(2024, 3, 15), "Good work");
+        when(studentRepo.findById(1L)).thenReturn(Optional.of(student));
+        when(courseRepo.findById(1L)).thenReturn(Optional.of(course));
+        when(semesterRepo.findById(1L)).thenReturn(Optional.of(semester));
+        when(experimentRepo.findById(1L)).thenReturn(Optional.of(experiment));
+        when(ceRepo.save(any())).thenReturn(eval);
+        assertThat(service.create(req).evaluationType()).isEqualTo("LAB_WORK");
+    }
+
+    @Test void create_nullExperiment() {
+        ContinuousEvaluationRequest req = new ContinuousEvaluationRequest(1L, 1L, null, 1L, "QUIZ", new BigDecimal("90"), new BigDecimal("100"), LocalDate.of(2024, 3, 15), null);
+        when(studentRepo.findById(1L)).thenReturn(Optional.of(student));
+        when(courseRepo.findById(1L)).thenReturn(Optional.of(course));
+        when(semesterRepo.findById(1L)).thenReturn(Optional.of(semester));
+        ContinuousEvaluation saved = new ContinuousEvaluation();
+        saved.setId(2L); saved.setStudent(student); saved.setCourse(course); saved.setSemester(semester);
+        saved.setEvaluationType("QUIZ"); saved.setMarksObtained(new BigDecimal("90"));
+        saved.setMaxMarks(new BigDecimal("100")); saved.setEvaluationDate(LocalDate.of(2024, 3, 15));
+        when(ceRepo.save(any())).thenReturn(saved);
+        assertThat(service.create(req).evaluationType()).isEqualTo("QUIZ");
+    }
+
+    @Test void create_studentNotFound() {
+        ContinuousEvaluationRequest req = new ContinuousEvaluationRequest(99L, 1L, null, 1L, "QUIZ", new BigDecimal("90"), new BigDecimal("100"), LocalDate.of(2024, 3, 15), null);
+        when(studentRepo.findById(99L)).thenReturn(Optional.empty());
+        assertThatThrownBy(() -> service.create(req)).isInstanceOf(ResourceNotFoundException.class);
+    }
+
+    @Test void create_courseNotFound() {
+        ContinuousEvaluationRequest req = new ContinuousEvaluationRequest(1L, 99L, null, 1L, "QUIZ", new BigDecimal("90"), new BigDecimal("100"), LocalDate.of(2024, 3, 15), null);
+        when(studentRepo.findById(1L)).thenReturn(Optional.of(student));
+        when(courseRepo.findById(99L)).thenReturn(Optional.empty());
+        assertThatThrownBy(() -> service.create(req)).isInstanceOf(ResourceNotFoundException.class);
+    }
+
+    @Test void create_semesterNotFound() {
+        ContinuousEvaluationRequest req = new ContinuousEvaluationRequest(1L, 1L, null, 99L, "QUIZ", new BigDecimal("90"), new BigDecimal("100"), LocalDate.of(2024, 3, 15), null);
+        when(studentRepo.findById(1L)).thenReturn(Optional.of(student));
+        when(courseRepo.findById(1L)).thenReturn(Optional.of(course));
+        when(semesterRepo.findById(99L)).thenReturn(Optional.empty());
+        assertThatThrownBy(() -> service.create(req)).isInstanceOf(ResourceNotFoundException.class);
+    }
+
+    @Test void create_experimentNotFound() {
+        ContinuousEvaluationRequest req = new ContinuousEvaluationRequest(1L, 1L, 99L, 1L, "QUIZ", new BigDecimal("90"), new BigDecimal("100"), LocalDate.of(2024, 3, 15), null);
+        when(studentRepo.findById(1L)).thenReturn(Optional.of(student));
+        when(courseRepo.findById(1L)).thenReturn(Optional.of(course));
+        when(semesterRepo.findById(1L)).thenReturn(Optional.of(semester));
+        when(experimentRepo.findById(99L)).thenReturn(Optional.empty());
+        assertThatThrownBy(() -> service.create(req)).isInstanceOf(ResourceNotFoundException.class);
+    }
+
+    @Test void update_success() {
+        ContinuousEvaluationRequest req = new ContinuousEvaluationRequest(1L, 1L, 1L, 1L, "LAB_WORK", new BigDecimal("90"), new BigDecimal("100"), LocalDate.of(2024, 4, 1), "Excellent");
+        when(ceRepo.findById(1L)).thenReturn(Optional.of(eval));
+        when(studentRepo.findById(1L)).thenReturn(Optional.of(student));
+        when(courseRepo.findById(1L)).thenReturn(Optional.of(course));
+        when(semesterRepo.findById(1L)).thenReturn(Optional.of(semester));
+        when(experimentRepo.findById(1L)).thenReturn(Optional.of(experiment));
+        when(ceRepo.save(any())).thenReturn(eval);
+        assertThat(service.update(1L, req)).isNotNull();
+    }
+
+    @Test void update_notFound() {
+        ContinuousEvaluationRequest req = new ContinuousEvaluationRequest(1L, 1L, null, 1L, "QUIZ", new BigDecimal("90"), new BigDecimal("100"), LocalDate.of(2024, 4, 1), null);
+        when(ceRepo.findById(99L)).thenReturn(Optional.empty());
+        assertThatThrownBy(() -> service.update(99L, req)).isInstanceOf(ResourceNotFoundException.class);
+    }
+
+    @Test void delete_success() {
+        when(ceRepo.existsById(1L)).thenReturn(true);
+        service.delete(1L);
+        verify(ceRepo).deleteById(1L);
+    }
+
+    @Test void delete_notFound() {
+        when(ceRepo.existsById(99L)).thenReturn(false);
+        assertThatThrownBy(() -> service.delete(99L)).isInstanceOf(ResourceNotFoundException.class);
+    }
+}

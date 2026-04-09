@@ -1,0 +1,172 @@
+# ===== Faculty Types =====
+
+type FacultyProfile {
+    id: ID!
+    keycloakId: String!
+    employeeCode: String!
+    firstName: String!
+    lastName: String!
+    email: String!
+    phone: String
+    dateOfBirth: Date
+    gender: String
+    photoUrl: String
+    department: Department!
+    designation: String!
+    highestQualification: String
+    specialization: String
+    joiningDate: Date!
+    experience: Int
+    status: String!
+    qualifications: [FacultyQualification!]!
+    publications: [ResearchPublication!]!
+    labExpertise: [FacultyLabExpertise!]!
+    labAssignments: [FacultyLabAssignment!]!
+    committeeMemberships: [CommitteeMembership!]!
+    mentees: [StudentMentor!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type FacultyLabExpertise {
+    id: ID!
+    faculty: FacultyProfile!
+    labType: LabType!
+    proficiencyLevel: String!
+    certifiedDate: Date
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type FacultyLabAssignment {
+    id: ID!
+    faculty: FacultyProfile!
+    lab: Lab!
+    semester: Semester!
+    assignedDate: Date!
+    active: Boolean!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type FacultyQualification {
+    id: ID!
+    faculty: FacultyProfile!
+    degree: String!
+    fieldOfStudy: String!
+    university: String!
+    yearOfCompletion: Int!
+    grade: String
+    thesisTitle: String
+    createdAt: DateTime!
+}
+
+type ResearchPublication {
+    id: ID!
+    faculty: FacultyProfile!
+    title: String!
+    publicationType: String!
+    journalOrConference: String!
+    year: Int!
+    volume: String
+    pages: String
+    doi: String
+    impactFactor: BigDecimal
+    indexing: String
+    coAuthors: String
+    abstract: String
+    url: String
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type FacultyWorkload {
+    id: ID!
+    faculty: FacultyProfile!
+    semester: Semester!
+    teachingHours: Int!
+    labHours: Int!
+    adminHours: Int!
+    researchHours: Int!
+    totalHours: Int!
+    maxAllowedHours: Int!
+    status: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type FacultyAppraisal {
+    id: ID!
+    faculty: FacultyProfile!
+    academicYear: AcademicYear!
+    teachingRating: BigDecimal!
+    researchRating: BigDecimal!
+    adminRating: BigDecimal!
+    studentFeedbackRating: BigDecimal
+    overallRating: BigDecimal!
+    selfAssessment: String
+    reviewerComments: String
+    reviewedBy: String!
+    appraisalDate: Date!
+    status: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type LeaveType {
+    id: ID!
+    name: String!
+    code: String!
+    maxDaysPerYear: Int!
+    carryForward: Boolean!
+    maxCarryForwardDays: Int
+    description: String
+    createdAt: DateTime!
+}
+
+type LeaveApplication {
+    id: ID!
+    faculty: FacultyProfile!
+    leaveType: LeaveType!
+    fromDate: Date!
+    toDate: Date!
+    totalDays: Int!
+    reason: String!
+    status: String!
+    appliedDate: Date!
+    approvedBy: String
+    approvedDate: Date
+    remarks: String
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type CommitteeMembership {
+    id: ID!
+    faculty: FacultyProfile!
+    committeeName: String!
+    role: String!
+    startDate: Date!
+    endDate: Date
+    description: String
+    active: Boolean!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type Staff {
+    id: ID!
+    keycloakId: String
+    employeeCode: String!
+    firstName: String!
+    lastName: String!
+    email: String!
+    phone: String
+    department: Department
+    designation: String!
+    staffType: String!
+    joiningDate: Date!
+    status: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}

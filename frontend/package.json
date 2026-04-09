@@ -20,6 +20,9 @@
     "@angular/material": "^21.2.5",
     "@angular/platform-browser": "^21.2.0",
     "@angular/router": "^21.2.0",
+    "@apollo/client": "^4.1.7",
+    "apollo-angular": "^13.0.0",
+    "graphql": "^16.13.2",
     "keycloak-js": "^26.2.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"

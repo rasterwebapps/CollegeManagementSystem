@@ -15,6 +15,9 @@ spring:
     open-in-view: false
   flyway:
     enabled: false
+  sql:
+    init:
+      mode: never
   security:
     oauth2:
       resourceserver:

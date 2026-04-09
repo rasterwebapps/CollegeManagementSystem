@@ -1,0 +1,226 @@
+# ===== Examination Types =====
+
+type PracticalExam {
+    id: ID!
+    course: Course!
+    semester: Semester!
+    experiment: Experiment!
+    examDate: Date!
+    startTime: String
+    endTime: String
+    lab: Lab!
+    maxMarks: BigDecimal!
+    passingMarks: BigDecimal!
+    examiner: String
+    status: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type ContinuousEvaluation {
+    id: ID!
+    student: StudentProfile!
+    course: Course!
+    experiment: Experiment
+    semester: Semester!
+    evaluationType: String!
+    marksObtained: BigDecimal!
+    maxMarks: BigDecimal!
+    evaluationDate: Date
+    remarks: String
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type ExamSchedule {
+    id: ID!
+    course: Course!
+    semester: Semester!
+    examType: String!
+    date: Date!
+    startTime: Time!
+    duration: Int!
+    room: RoomResource
+    maxMarks: BigDecimal!
+    passingMarks: BigDecimal!
+    internalMarksWeight: BigDecimal
+    externalMarksWeight: BigDecimal
+    status: String!
+    seatingPlan: [ExamSeatingPlan!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type ExamSeatingPlan {
+    id: ID!
+    exam: ExamSchedule!
+    student: StudentProfile!
+    room: RoomResource!
+    seatNumber: String!
+    row: Int
+    column: Int
+    createdAt: DateTime!
+}
+
+type StudentMark {
+    id: ID!
+    student: StudentProfile!
+    exam: ExamSchedule
+    course: Course!
+    semester: Semester!
+    internalMarks: BigDecimal
+    externalMarks: BigDecimal
+    totalMarks: BigDecimal!
+    maxMarks: BigDecimal!
+    grade: String
+    gradePoint: BigDecimal
+    result: String!
+    remarks: String
+    publishStatus: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type GradeScale {
+    id: ID!
+    grade: String!
+    minPercentage: BigDecimal!
+    maxPercentage: BigDecimal!
+    gradePoint: BigDecimal!
+    description: String
+    createdAt: DateTime!
+}
+
+type RevaluationRequest {
+    id: ID!
+    student: StudentProfile!
+    exam: ExamSchedule!
+    course: Course!
+    reason: String!
+    originalMarks: BigDecimal!
+    revisedMarks: BigDecimal
+    status: String!
+    fee: BigDecimal
+    feePaid: Boolean!
+    processedBy: String
+    processedDate: Date
+    remarks: String
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type QuestionBankEntry {
+    id: ID!
+    course: Course!
+    unit: Int!
+    question: String!
+    questionType: String!
+    bloomLevel: String!
+    difficultyLevel: String!
+    marks: BigDecimal!
+    expectedAnswer: String
+    options: String
+    createdBy: String!
+    reviewed: Boolean!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type QuestionPaper {
+    id: ID!
+    exam: ExamSchedule!
+    course: Course!
+    totalMarks: BigDecimal!
+    duration: Int!
+    instructions: String
+    sections: String
+    questionIds: [ID!]!
+    createdBy: String!
+    approvedBy: String
+    approvalDate: Date
+    status: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+# ===== Curriculum Types =====
+
+type Syllabus {
+    id: ID!
+    course: Course!
+    academicYear: AcademicYear!
+    content: String
+    objectives: String
+    textbooks: String
+    referenceBooks: String
+    onlineResources: String
+    teachingPlan: String
+    status: String!
+    outcomes: [CourseOutcome!]!
+    experiments: [Experiment!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type CourseOutcome {
+    id: ID!
+    syllabus: Syllabus!
+    code: String!
+    description: String!
+    bloomLevel: String!
+    programOutcomeMapping: String
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type Experiment {
+    id: ID!
+    syllabus: Syllabus!
+    experimentNumber: Int!
+    title: String!
+    description: String
+    labType: LabType!
+    durationHours: Int!
+    prerequisites: String
+    safetyPrecautions: String
+    outcomeMappings: [ExperimentOutcomeMapping!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type ExperimentOutcomeMapping {
+    id: ID!
+    experiment: Experiment!
+    courseOutcome: CourseOutcome!
+    createdAt: DateTime!
+}
+
+# ===== Analytics Types =====
+
+type AnalyticsSnapshot {
+    id: ID!
+    department: Department
+    program: Program
+    semester: Semester
+    snapshotType: String!
+    metricName: String!
+    metricValue: BigDecimal!
+    snapshotDate: Date!
+    details: String
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type AccreditationReport {
+    id: ID!
+    department: Department
+    reportType: String!
+    academicYear: String
+    generatedDate: Date!
+    overallScore: BigDecimal
+    status: String!
+    summary: String
+    criteria: String
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}

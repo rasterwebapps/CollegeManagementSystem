@@ -26,6 +26,13 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8180/realms/cms
+  graphql:
+    graphiql:
+      enabled: true
+    schema:
+      inspection:
+        enabled: true
+    path: /graphql
 
 server:
   port: 8080

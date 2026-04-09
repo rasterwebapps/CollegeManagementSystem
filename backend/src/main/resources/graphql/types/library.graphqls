@@ -1,0 +1,114 @@
+# ===== Library Types =====
+
+type Book {
+    id: ID!
+    isbn: String!
+    title: String!
+    author: String!
+    publisher: String
+    edition: String
+    publicationYear: Int
+    category: String!
+    subCategory: String
+    language: String!
+    pages: Int
+    shelfLocation: String!
+    totalCopies: Int!
+    availableCopies: Int!
+    description: String
+    coverImageUrl: String
+    issues: [BookIssue!]!
+    reservations: [BookReservation!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type BookPage {
+    content: [Book!]!
+    totalElements: Int!
+    totalPages: Int!
+    pageNumber: Int!
+    pageSize: Int!
+}
+
+type BookIssue {
+    id: ID!
+    book: Book!
+    member: LibraryMember!
+    issueDate: Date!
+    dueDate: Date!
+    returnDate: Date
+    renewCount: Int!
+    maxRenewals: Int!
+    status: String!
+    fine: BigDecimal
+    remarks: String
+    issuedBy: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type LibraryMember {
+    id: ID!
+    studentProfile: StudentProfile
+    facultyProfile: FacultyProfile
+    membershipNumber: String!
+    memberType: String!
+    maxBooksAllowed: Int!
+    currentBooksIssued: Int!
+    joinDate: Date!
+    expiryDate: Date
+    status: String!
+    issues: [BookIssue!]!
+    reservations: [BookReservation!]!
+    fines: [LibraryFine!]!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type BookReservation {
+    id: ID!
+    book: Book!
+    member: LibraryMember!
+    reservationDate: Date!
+    expiryDate: Date!
+    queuePosition: Int!
+    status: String!
+    notifiedDate: Date
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type DigitalResource {
+    id: ID!
+    title: String!
+    resourceType: String!
+    author: String
+    publisher: String
+    url: String!
+    accessLevel: String!
+    category: String!
+    description: String
+    fileFormat: String
+    fileSize: String
+    uploadDate: Date!
+    expiryDate: Date
+    downloadCount: Int!
+    status: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
+
+type LibraryFine {
+    id: ID!
+    member: LibraryMember!
+    bookIssue: BookIssue
+    amount: BigDecimal!
+    reason: String!
+    fineDate: Date!
+    paidDate: Date
+    paidAmount: BigDecimal
+    status: String!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
